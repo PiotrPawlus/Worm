@@ -18,7 +18,7 @@ class GameScene: SKScene {
         
         self.background()
         self.setPlayButton()
-
+        self.setPauseButton()
     }
     
     
@@ -47,9 +47,21 @@ class GameScene: SKScene {
         playButton.position = CGPointMake(self.frame.midX, self.frame.midY)
         self.addChild(playButton)
     }
+    
+    func setPauseButton() {
+        let pauseButton = SKButton(defaultButtonImage: "PauseButton", activeButtonImage: "PauseButtonShadow", buttonAction: pauseGame)
+        pauseButton.zPosition = ObjectsZPositions.hud
+        pauseButton.position = CGPointMake(self.frame.maxX * 1/10, self.frame.maxY * 15/16)
+        self.addChild(pauseButton)
+    }
  
     // MARK: - Buttons actions
     func removePlayButton() {
         playButton.removeFromParent()
+    }
+    
+    func pauseGame() {
+        print("GAME WILL BE PAUSED HERE")
+        self.addChild(PauseMenu(imageNamed: "PauseMenu", frameSize: self.frame.size, delegate: self))
     }
 }
