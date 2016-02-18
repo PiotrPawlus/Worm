@@ -10,7 +10,7 @@ import SpriteKit
 
 class MenuScene: SKScene {
 
-    private let aspectRatio: CGFloat = 0.8
+    private let buttonsScale: CGFloat = 0.8
     // MARK: - Presenting a Scene
     override func didMoveToView(view: SKView) {
 
@@ -42,7 +42,7 @@ class MenuScene: SKScene {
     func singlePlayerBtn() {
         let singlePlayerBtn = SKButton(defaultButtonImage: "SinglePlayer", activeButtonImage: "SinglePlayerButtonShadow", buttonAction: goToSinglePlayerScene)
         singlePlayerBtn.zPosition = ObjectsZPositions.hud
-        singlePlayerBtn.setScale(self.aspectRatio)
+        singlePlayerBtn.setScale(self.buttonsScale)
         singlePlayerBtn.position = CGPointMake(self.frame.midX, self.frame.maxY * 5/9)
         self.addChild(singlePlayerBtn)
     }
@@ -50,8 +50,8 @@ class MenuScene: SKScene {
     func multiPlayerBtn() {
         let multiPlayerBtn = SKButton(defaultButtonImage: "MultiPlayer", activeButtonImage: "MultiPlayerShadow", disabledButtonImage: "MultiPlayerLocked", buttonAction: goToMultiPlayerScene)
         multiPlayerBtn.zPosition = ObjectsZPositions.hud
-        multiPlayerBtn.setScale(self.aspectRatio)
-        multiPlayerBtn.enabled = false
+        multiPlayerBtn.setScale(self.buttonsScale)
+//        multiPlayerBtn.enabled = false
         multiPlayerBtn.position = CGPointMake(self.frame.midX, self.frame.maxY * 4/9)
         self.addChild(multiPlayerBtn)
     }
@@ -66,9 +66,11 @@ class MenuScene: SKScene {
     // MARK: - Present a Scene
     func goToSinglePlayerScene() {
         print("SINGLE PLAYER SCENE WILL PRESENT HERE")
+        self.view!.presentScene(GameScene(size: self.size), transition: SKTransition.fadeWithDuration(0.5))
     }
     
     func goToMultiPlayerScene() {
         print("MULTIPLAYER SCENE WILL PRESETN HERE")
+        self.view!.presentScene(GameScene(size: self.size), transition: SKTransition.fadeWithDuration(0.5))
     }
 }
