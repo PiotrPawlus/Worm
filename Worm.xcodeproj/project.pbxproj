@@ -8,24 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		C1177FBF1C74E4C20088114C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1177FBE1C74E4C20088114C /* AppDelegate.swift */; };
-		C1177FC11C74E4C20088114C /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = C1177FC01C74E4C20088114C /* GameScene.sks */; };
-		C1177FC31C74E4C20088114C /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1177FC21C74E4C20088114C /* GameScene.swift */; };
 		C1177FC51C74E4C20088114C /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1177FC41C74E4C20088114C /* GameViewController.swift */; };
 		C1177FC81C74E4C20088114C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1177FC61C74E4C20088114C /* Main.storyboard */; };
 		C1177FCA1C74E4C20088114C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C1177FC91C74E4C20088114C /* Assets.xcassets */; };
 		C1177FCD1C74E4C20088114C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1177FCB1C74E4C20088114C /* LaunchScreen.storyboard */; };
+		C1912AD91C75A48F00CEC03A /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1912AD81C75A48F00CEC03A /* MenuScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		C1177FBB1C74E4C20088114C /* Worm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Worm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1177FBE1C74E4C20088114C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C1177FC01C74E4C20088114C /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		C1177FC21C74E4C20088114C /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		C1177FC41C74E4C20088114C /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		C1177FC71C74E4C20088114C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C1177FC91C74E4C20088114C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C1177FCC1C74E4C20088114C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C1177FCE1C74E4C20088114C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C1912AD81C75A48F00CEC03A /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,8 +57,7 @@
 			isa = PBXGroup;
 			children = (
 				C1177FBE1C74E4C20088114C /* AppDelegate.swift */,
-				C1177FC01C74E4C20088114C /* GameScene.sks */,
-				C1177FC21C74E4C20088114C /* GameScene.swift */,
+				C1912AD81C75A48F00CEC03A /* MenuScene.swift */,
 				C1177FC41C74E4C20088114C /* GameViewController.swift */,
 				C1177FC61C74E4C20088114C /* Main.storyboard */,
 				C1177FC91C74E4C20088114C /* Assets.xcassets */,
@@ -128,7 +125,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C1177FC11C74E4C20088114C /* GameScene.sks in Resources */,
 				C1177FCD1C74E4C20088114C /* LaunchScreen.storyboard in Resources */,
 				C1177FCA1C74E4C20088114C /* Assets.xcassets in Resources */,
 				C1177FC81C74E4C20088114C /* Main.storyboard in Resources */,
@@ -142,7 +138,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C1177FC31C74E4C20088114C /* GameScene.swift in Sources */,
+				C1912AD91C75A48F00CEC03A /* MenuScene.swift in Sources */,
 				C1177FC51C74E4C20088114C /* GameViewController.swift in Sources */,
 				C1177FBF1C74E4C20088114C /* AppDelegate.swift in Sources */,
 			);
@@ -292,6 +288,7 @@
 				C1177FD31C74E4C20088114C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
