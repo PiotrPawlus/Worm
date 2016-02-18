@@ -47,7 +47,8 @@ class GameScene: SKScene {
         playButton.position = CGPointMake(self.frame.midX, self.frame.midY)
         self.addChild(playButton)
     }
-    
+ 
+    // MARK: - Buttons actions
     func removePlayButton() {
         playButton.removeFromParent()
     }
