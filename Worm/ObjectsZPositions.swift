@@ -9,8 +9,8 @@
 import UIKit
 
 struct ObjectsZPositions {
-    static let background = -2
-    static let middleground = 1
-    static let foreground = 2
-    static let hud = 3
+    static let background: CGFloat = -2
+    static let middleground: CGFloat  = 1
+    static let foreground: CGFloat  = 2
+    static let hud: CGFloat  = 3
 }
