@@ -14,6 +14,7 @@
 		C1177FCD1C74E4C20088114C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1177FCB1C74E4C20088114C /* LaunchScreen.storyboard */; };
 		C1912AD91C75A48F00CEC03A /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1912AD81C75A48F00CEC03A /* MenuScene.swift */; };
 		C1912ADB1C75AADD00CEC03A /* ObjectsZPositions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1912ADA1C75AADD00CEC03A /* ObjectsZPositions.swift */; };
+		C1912ADF1C75B8D000CEC03A /* SKButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1912ADE1C75B8D000CEC03A /* SKButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		C1177FCE1C74E4C20088114C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C1912AD81C75A48F00CEC03A /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		C1912ADA1C75AADD00CEC03A /* ObjectsZPositions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectsZPositions.swift; sourceTree = "<group>"; };
+		C1912ADE1C75B8D000CEC03A /* SKButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 				C1177FBE1C74E4C20088114C /* AppDelegate.swift */,
 				C1912AD81C75A48F00CEC03A /* MenuScene.swift */,
 				C1177FC41C74E4C20088114C /* GameViewController.swift */,
+				C1912ADE1C75B8D000CEC03A /* SKButton.swift */,
 				C1177FC61C74E4C20088114C /* Main.storyboard */,
 				C1177FC91C74E4C20088114C /* Assets.xcassets */,
 				C1177FCB1C74E4C20088114C /* LaunchScreen.storyboard */,
@@ -157,6 +160,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C1912ADF1C75B8D000CEC03A /* SKButton.swift in Sources */,
 				C1912AD91C75A48F00CEC03A /* MenuScene.swift in Sources */,
 				C1912ADB1C75AADD00CEC03A /* ObjectsZPositions.swift in Sources */,
 				C1177FC51C74E4C20088114C /* GameViewController.swift in Sources */,
