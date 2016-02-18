@@ -17,6 +17,7 @@ class MenuScene: SKScene {
         self.background()
         self.singlePlayerBtn()
         self.multiPlayerBtn()
+        self.ribbon()
     }
     
     
@@ -39,7 +40,7 @@ class MenuScene: SKScene {
     }
     
     func singlePlayerBtn() {
-        let singlePlayerBtn = SKButton(defaultButtonImage: "SinglePlayerEnabled", activeButtonImage: "SinglePlayerButtonShadow", buttonAction: goToSinglePlayerScene)
+        let singlePlayerBtn = SKButton(defaultButtonImage: "SinglePlayer", activeButtonImage: "SinglePlayerButtonShadow", buttonAction: goToSinglePlayerScene)
         singlePlayerBtn.zPosition = ObjectsZPositions.hud
         singlePlayerBtn.setScale(self.aspectRatio)
         singlePlayerBtn.position = CGPointMake(self.frame.midX, self.frame.maxY * 5/9)
@@ -47,11 +48,19 @@ class MenuScene: SKScene {
     }
     
     func multiPlayerBtn() {
-        let multiPlayerBtn = SKButton(defaultButtonImage: "MultiPlayer", activeButtonImage: "MultiPlayerButtonShadow", disabledButtonImage: "MultiPlayerLocked", buttonAction: goToMultiPlayerScene)
+        let multiPlayerBtn = SKButton(defaultButtonImage: "MultiPlayer", activeButtonImage: "MultiPlayerShadow", disabledButtonImage: "MultiPlayerLocked", buttonAction: goToMultiPlayerScene)
         multiPlayerBtn.zPosition = ObjectsZPositions.hud
         multiPlayerBtn.setScale(self.aspectRatio)
+        multiPlayerBtn.enabled = false
         multiPlayerBtn.position = CGPointMake(self.frame.midX, self.frame.maxY * 4/9)
         self.addChild(multiPlayerBtn)
+    }
+    
+    func ribbon() {
+        let ribbon = SKSpriteNode(imageNamed: "Ribbon")
+        ribbon.zPosition = ObjectsZPositions.hud
+        ribbon.position = CGPointMake(self.frame.midX, self.frame.maxY * 8/9)
+        self.addChild(ribbon)
     }
     
     // MARK: - Present a Scene
