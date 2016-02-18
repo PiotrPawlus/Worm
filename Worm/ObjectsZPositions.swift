@@ -12,5 +12,6 @@ struct ObjectsZPositions {
     static let background: CGFloat = -2
     static let middleground: CGFloat  = 1
     static let foreground: CGFloat  = 2
-    static let hud: CGFloat  = 3
+    static let hud: CGFloat = 3
+    static let hudObjects: CGFloat = 4
 }
