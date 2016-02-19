@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class PointsNode: SKSpriteNode {
+class PointsCounterNode: SKSpriteNode {
     
     private var delegate: SKScene!
     private var pointsNodeSize: CGSize!
