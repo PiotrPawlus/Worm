@@ -13,6 +13,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: - Properties
     private var playButton: SKButton!
+    private var pauseButton: SKButton!
     private let buttonsScale: CGFloat = 0.8
     private var pointsLabel: PointsCounterNode!
     
@@ -104,7 +105,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
 
         if bodyA.categoryBitMask == CollisionCategoryBitmask.Wall || bodyB.categoryBitMask == CollisionCategoryBitmask.Wall {
-//            self.pauseGame()
+            self.setEndGame()
         }
     }
     
@@ -126,10 +127,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setPauseButton() {
-        let pauseButton = SKButton(defaultButtonImage: "PauseButton", activeButtonImage: "PauseButtonShadow", buttonAction: pauseGame)
+        pauseButton = SKButton(defaultButtonImage: "PauseButton", activeButtonImage: "PauseButtonShadow", buttonAction: pauseGame)
         pauseButton.zPosition = ObjectsZPositions.hud
         pauseButton.position = CGPointMake(self.frame.maxX * 1/10, self.frame.maxY * 15/16)
         self.addChild(pauseButton)
+    }
+    
+    func setEndGame() {
+        pauseButton.enabled = false
+        
+        let endGame = EndGameNode(imageNamed: "Warning", delegate: self)
+        endGame.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        self.addChild(endGame)
     }
     
     // MARK: - GameScene Physic Bodies
