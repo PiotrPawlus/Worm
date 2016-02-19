@@ -93,8 +93,6 @@ class GameScene: SKScene {
                                     CGFloat(arc4random() % UInt32(self.frame.maxY - self.pointsLabel.size.height - self.frame.height * 1/16)))
         star.setScale(0.5)
 
-        print(pointsLabel.size.height)
-        print(frame.height)
         star.physicsBody = SKPhysicsBody(rectangleOfSize: star.size)
         star.physicsBody?.dynamic = false
         star.physicsBody?.categoryBitMask = CollisionCategoryBitmask.Point
