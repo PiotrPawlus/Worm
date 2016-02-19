@@ -119,7 +119,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setPlayButton() {
-        playButton = SKButton(defaultButtonImage: "PlayBigButton", activeButtonImage: "PlayBigButton", buttonAction: removePlayButton)
+        playButton = SKButton(defaultButtonImage: "PlayBigButton", activeButtonImage: "PlayBigButtonShadow", buttonAction: removePlayButton)
         playButton.setScale(self.buttonsScale)
         playButton.zPosition = ObjectsZPositions.hud
         playButton.position = CGPointMake(self.frame.midX, self.frame.midY)
