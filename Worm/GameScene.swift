@@ -17,7 +17,7 @@ class GameScene: SKScene {
     // Physics Bodies
     var worm: SKSpriteNode!
     var walls: [SKNode]!
-    var point: SKSpriteNode!
+    var star: SKSpriteNode! // thing to collect
 
     // MARK: - Presenting a Scene
     override func didMoveToView(view: SKView) {
@@ -31,6 +31,7 @@ class GameScene: SKScene {
         
         // Physics Bodies
         self.createWorm()
+        self.createPoint()
     }
     
     
@@ -86,6 +87,21 @@ class GameScene: SKScene {
         self.addChild(worm)
     }
     
+    func createPoint() {
+        star = SKSpriteNode(imageNamed: "Star")
+        star.position = CGPointMake(CGFloat(arc4random() % UInt32(self.frame.maxX - self.frame.maxX * 1/8)),
+                                    CGFloat(arc4random() % UInt32(self.frame.maxY - self.pointsLabel.size.height - self.frame.height * 1/16)))
+        star.setScale(0.5)
+
+        print(pointsLabel.size.height)
+        print(frame.height)
+        star.physicsBody = SKPhysicsBody(rectangleOfSize: star.size)
+        star.physicsBody?.dynamic = false
+        star.physicsBody?.categoryBitMask = CollisionCategoryBitmask.Point
+        star.physicsBody?.contactTestBitMask = 0x00
+        star.physicsBody?.collisionBitMask = CollisionCategoryBitmask.Worm
+        self.addChild(star)
+    }
     
     // MARK: - Buttons actions
     func removePlayButton() {
