@@ -14,7 +14,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: - Properties
     private var playButton: SKButton!
     private let buttonsScale: CGFloat = 0.8
-    private var pointsLabel: PointsNode!
+    private var pointsLabel: PointsCounterNode!
     
     // Physics Bodies
     var worm: SKSpriteNode!
@@ -52,7 +52,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.background()
         self.setPlayButton()
         self.setPauseButton()
-        pointsLabel = PointsNode(imageNamed: "Points", frameSize: self.frame.size, delegate: self)
+        pointsLabel = PointsCounterNode(imageNamed: "Points", frameSize: self.frame.size, delegate: self)
         pointsLabel.position = CGPointMake(self.frame.maxX * 15/16 - pointsLabel.size.width / 2, self.frame.maxY * 15/16)
         self.addChild(pointsLabel)
         
@@ -77,7 +77,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: - Executing the Animation Loop
     override func update(currentTime: CFTimeInterval) {
-        pointsLabel.pointLabel.text = "1"
+        pointsLabel.pointLabel.text = "\(pointsLabel.points)"
     }
 
     override func didSimulatePhysics() {
@@ -86,7 +86,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: - Responding to Contact Events
     func didBeginContact(contact: SKPhysicsContact) {
-        print("CONTACT!")
+        var bodyA: SKPhysicsBody
+        var bodyB: SKPhysicsBody
+        
+        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+            bodyA = contact.bodyA
+            bodyB = contact.bodyB
+        } else {
+            bodyA = contact.bodyB
+            bodyB = contact.bodyA
+        }
+        
+        if bodyA.categoryBitMask == CollisionCategoryBitmask.Point || bodyB.categoryBitMask == CollisionCategoryBitmask.Point {
+            star.removeFromParent()
+            self.createPoint()
+            pointsLabel.points += 1
+        }
+
+        if bodyA.categoryBitMask == CollisionCategoryBitmask.Wall || bodyB.categoryBitMask == CollisionCategoryBitmask.Wall {
+//            self.pauseGame()
+        }
     }
     
     // MARK: - GameScene Sprite Nodes
@@ -194,6 +213,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func pauseGame() {
+        if playButton != nil {
+            playButton.removeFromParent()
+        }
         self.wormVector = worm.physicsBody?.velocity
         worm.physicsBody?.dynamic = false
         self.addChild(PauseMenu(imageNamed: "PauseMenu", frameSize: self.frame.size, delegate: self))
