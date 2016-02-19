@@ -152,17 +152,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func createPoint() {
-        star = SKSpriteNode(imageNamed: "Star")
+        star = Point(imageNamed: "Star", delegate: self)
         star.position = CGPointMake(CGFloat(arc4random() % UInt32(self.frame.maxX - self.frame.maxX * 1/8)),
                                     CGFloat(arc4random() % UInt32(self.frame.maxY - self.pointsLabel.size.height - self.frame.height * 1/16)))
-        star.setScale(0.5)
-
-        star.zPosition = ObjectsZPositions.middleground
-        star.physicsBody = SKPhysicsBody(rectangleOfSize: star.size)
-        star.physicsBody?.dynamic = false
-        star.physicsBody?.categoryBitMask = CollisionCategoryBitmask.Point
-        star.physicsBody?.contactTestBitMask = CollisionCategoryBitmask.Nil
-        star.physicsBody?.collisionBitMask = CollisionCategoryBitmask.Worm
         self.addChild(star)
     }
     
