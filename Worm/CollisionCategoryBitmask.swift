@@ -9,7 +9,8 @@
 import UIKit
 
 struct CollisionCategoryBitmask {
-    static let Worm: UInt32 = 0x00
-    static let Wall: UInt32 = 0x01
-    static let Point: UInt32 = 0x02
+    static let Nil: UInt32 = 0x00
+    static let Worm: UInt32 = 0x01
+    static let Wall: UInt32 = 0x02
+    static let Point: UInt32 = 0x03
 }
