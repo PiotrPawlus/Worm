@@ -17,8 +17,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var pointsLabel: PointsNode!
     
     // Physics Bodies
-    private var worm: SKSpriteNode!
+    var worm: SKSpriteNode!
     private var star: SKSpriteNode! // thing to collect
+    var wormDynamic: Bool {
+        get {
+            return (worm.physicsBody?.dynamic)!
+        }
+        set {
+            if worm != nil {
+                worm.physicsBody?.dynamic = newValue
+            }
+        }
+    }
+    private var wormVector: CGVector!
+    var vector: CGVector {
+        get {
+            if worm != nil {
+                return self.wormVector
+            } else {
+                return CGVector(dx: 0.0, dy: 0.0)
+            }
+        }
+    }
     
     // Accelemeter
     private let motionManager = CMMotionManager()
@@ -174,7 +194,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func pauseGame() {
-        print("GAME WILL BE PAUSED HERE")
+        self.wormVector = worm.physicsBody?.velocity
+        worm.physicsBody?.dynamic = false
         self.addChild(PauseMenu(imageNamed: "PauseMenu", frameSize: self.frame.size, delegate: self))
     }
 }

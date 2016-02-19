@@ -11,13 +11,13 @@ import SpriteKit
 class PauseMenu: SKSpriteNode {
 
     private var pauseMenuSize: CGSize!
-    private var delegate: SKScene!
+    private weak var delegate: GameScene!
     // MARK: - initializers
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    init(imageNamed: String, frameSize: CGSize, delegate: SKScene) {
+    init(imageNamed: String, frameSize: CGSize, delegate: GameScene) {
         let texture = SKTexture(imageNamed: imageNamed)
         
         self.delegate = delegate
@@ -59,6 +59,8 @@ class PauseMenu: SKSpriteNode {
     // MARK: - Buttons actions
     func playButton() {
         self.removeFromParent()
+        self.delegate?.wormDynamic = true
+        self.delegate?.worm.physicsBody?.applyImpulse((self.delegate?.vector)!)
     }
     
     func reloadScene() {
