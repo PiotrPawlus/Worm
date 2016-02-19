@@ -7,17 +7,24 @@
 //
 
 import SpriteKit
+import CoreMotion
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    // MARK: - Properties
     private var playButton: SKButton!
     private let buttonsScale: CGFloat = 0.8
     private var pointsLabel: PointsNode!
     
     // Physics Bodies
-    var worm: SKSpriteNode!
-    var star: SKSpriteNode! // thing to collect
-
+    private var worm: SKSpriteNode!
+    private var star: SKSpriteNode! // thing to collect
+    
+    // Accelemeter
+    private let motionManager = CMMotionManager()
+    private var xAcceleration: CGFloat = 0.0
+    private var yAcceleration: CGFloat = 0.0
+    
     // MARK: - Presenting a Scene
     override func didMoveToView(view: SKView) {
         physicsWorld.contactDelegate = self
@@ -33,8 +40,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.createWorm()
         self.createPoint()
         self.createWalls()
+        
+        // Accelerometer
+        motionManager.accelerometerUpdateInterval = 0.1
+        motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.currentQueue()!) {
+            (accelerometerData: CMAccelerometerData?, error: NSError?) -> Void in
+            let acceleration = accelerometerData!.acceleration
+            self.xAcceleration = CGFloat(acceleration.x) + (self.xAcceleration * 0.25)
+            self.yAcceleration = CGFloat(acceleration.y) + (self.yAcceleration * 0.25)
+        }
     }
-    
     
     // MARK: - Responding to Touch Events
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -43,6 +58,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: - Executing the Animation Loop
     override func update(currentTime: CFTimeInterval) {
         pointsLabel.pointLabel.text = "1"
+    }
+
+    override func didSimulatePhysics() {
+        worm.physicsBody?.velocity = CGVector(dx: xAcceleration * 400, dy: yAcceleration * 400)
     }
     
     // MARK: - Responding to Contact Events
@@ -151,7 +170,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: - Buttons actions
     func removePlayButton() {
         playButton.removeFromParent()
-        worm.physicsBody?.affectedByGravity = true // to delete
         worm.physicsBody?.dynamic = true
     }
     
