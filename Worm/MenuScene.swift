@@ -51,7 +51,7 @@ class MenuScene: SKScene {
         let multiPlayerBtn = SKButton(defaultButtonImage: "MultiPlayer", activeButtonImage: "MultiPlayerShadow", disabledButtonImage: "MultiPlayerLocked", buttonAction: goToMultiPlayerScene)
         multiPlayerBtn.zPosition = ObjectsZPositions.hud
         multiPlayerBtn.setScale(self.buttonsScale)
-//        multiPlayerBtn.enabled = false
+        multiPlayerBtn.enabled = false
         multiPlayerBtn.position = CGPointMake(self.frame.midX, self.frame.maxY * 4/9)
         self.addChild(multiPlayerBtn)
     }
