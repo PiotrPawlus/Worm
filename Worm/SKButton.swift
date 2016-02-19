@@ -24,15 +24,15 @@ class SKButton: SKNode {
                 activeButton.hidden = true
                 if disabledButton != nil {
                     disabledButton.hidden = true
-
                 }
-
             case false:
                 userInteractionEnabled = false
-                defaultButton.hidden = true
                 activeButton.hidden = true
                 if disabledButton != nil {
+                    defaultButton.hidden = true
                     disabledButton.hidden = false
+                } else {
+                    defaultButton.hidden = false
                 }
             }
         }
