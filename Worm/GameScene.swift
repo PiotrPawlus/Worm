@@ -135,7 +135,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func setEndGame() {
         pauseButton.enabled = false
-        
+        worm.physicsBody?.dynamic = false
         let endGame = EndGameNode(imageNamed: "Warning", delegate: self)
         endGame.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         self.addChild(endGame)
