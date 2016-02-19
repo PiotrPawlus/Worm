@@ -19,6 +19,7 @@
 		C1912AE31C75DB2700CEC03A /* PauseMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1912AE21C75DB2700CEC03A /* PauseMenu.swift */; };
 		C1912AE51C75FF7B00CEC03A /* PointsCounterNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1912AE41C75FF7B00CEC03A /* PointsCounterNode.swift */; };
 		C1912AE71C770CD300CEC03A /* CollisionCategoryBitmask.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1912AE61C770CD300CEC03A /* CollisionCategoryBitmask.swift */; };
+		C1912AE91C773DED00CEC03A /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1912AE81C773DED00CEC03A /* Point.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		C1912AE21C75DB2700CEC03A /* PauseMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseMenu.swift; sourceTree = "<group>"; };
 		C1912AE41C75FF7B00CEC03A /* PointsCounterNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointsCounterNode.swift; sourceTree = "<group>"; };
 		C1912AE61C770CD300CEC03A /* CollisionCategoryBitmask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollisionCategoryBitmask.swift; sourceTree = "<group>"; };
+		C1912AE81C773DED00CEC03A /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,7 @@
 				C1912AE01C75CBDD00CEC03A /* GameScene.swift */,
 				C1912AE61C770CD300CEC03A /* CollisionCategoryBitmask.swift */,
 				C1912AE41C75FF7B00CEC03A /* PointsCounterNode.swift */,
+				C1912AE81C773DED00CEC03A /* Point.swift */,
 				C1912AE21C75DB2700CEC03A /* PauseMenu.swift */,
 				C1177FC41C74E4C20088114C /* GameViewController.swift */,
 				C1912ADE1C75B8D000CEC03A /* SKButton.swift */,
@@ -178,6 +181,7 @@
 				C1912ADB1C75AADD00CEC03A /* ObjectsZPositions.swift in Sources */,
 				C1912AE31C75DB2700CEC03A /* PauseMenu.swift in Sources */,
 				C1177FC51C74E4C20088114C /* GameViewController.swift in Sources */,
+				C1912AE91C773DED00CEC03A /* Point.swift in Sources */,
 				C1912AE51C75FF7B00CEC03A /* PointsCounterNode.swift in Sources */,
 				C1177FBF1C74E4C20088114C /* AppDelegate.swift in Sources */,
 				C1912AE71C770CD300CEC03A /* CollisionCategoryBitmask.swift in Sources */,
