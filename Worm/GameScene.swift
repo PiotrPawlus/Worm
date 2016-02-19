@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var playButton: SKButton!
     private let buttonsScale: CGFloat = 0.8
@@ -16,11 +16,11 @@ class GameScene: SKScene {
     
     // Physics Bodies
     var worm: SKSpriteNode!
-    var walls: [SKNode]!
     var star: SKSpriteNode! // thing to collect
 
     // MARK: - Presenting a Scene
     override func didMoveToView(view: SKView) {
+        physicsWorld.contactDelegate = self
         
         self.background()
         self.setPlayButton()
@@ -32,6 +32,7 @@ class GameScene: SKScene {
         // Physics Bodies
         self.createWorm()
         self.createPoint()
+        self.createWalls()
     }
     
     
@@ -42,6 +43,11 @@ class GameScene: SKScene {
     // MARK: - Executing the Animation Loop
     override func update(currentTime: CFTimeInterval) {
         pointsLabel.pointLabel.text = "1"
+    }
+    
+    // MARK: - Responding to Contact Events
+    func didBeginContact(contact: SKPhysicsContact) {
+        print("CONTACT!")
     }
     
     // MARK: - GameScene Sprite Nodes
@@ -82,7 +88,7 @@ class GameScene: SKScene {
         
         worm.physicsBody?.usesPreciseCollisionDetection = true
         worm.physicsBody?.categoryBitMask = CollisionCategoryBitmask.Worm
-        worm.physicsBody?.collisionBitMask = 0x00
+        worm.physicsBody?.collisionBitMask = CollisionCategoryBitmask.Nil
         worm.physicsBody?.contactTestBitMask = CollisionCategoryBitmask.Wall | CollisionCategoryBitmask.Point
         self.addChild(worm)
     }
@@ -93,12 +99,53 @@ class GameScene: SKScene {
                                     CGFloat(arc4random() % UInt32(self.frame.maxY - self.pointsLabel.size.height - self.frame.height * 1/16)))
         star.setScale(0.5)
 
+        star.zPosition = ObjectsZPositions.middleground
         star.physicsBody = SKPhysicsBody(rectangleOfSize: star.size)
         star.physicsBody?.dynamic = false
         star.physicsBody?.categoryBitMask = CollisionCategoryBitmask.Point
-        star.physicsBody?.contactTestBitMask = 0x00
+        star.physicsBody?.contactTestBitMask = CollisionCategoryBitmask.Nil
         star.physicsBody?.collisionBitMask = CollisionCategoryBitmask.Worm
         self.addChild(star)
+    }
+    
+    func createWalls() {
+        let down = SKNode()
+        down.physicsBody = SKPhysicsBody(edgeFromPoint: CGPoint(x: CGRectGetMinX(self.frame), y: CGRectGetMinY(self.frame)),
+                                               toPoint: CGPoint(x: CGRectGetMaxX(self.frame), y: CGRectGetMinY(self.frame)))
+        down.physicsBody?.categoryBitMask = CollisionCategoryBitmask.Wall
+        down.physicsBody?.contactTestBitMask = CollisionCategoryBitmask.Worm
+        down.physicsBody?.collisionBitMask = CollisionCategoryBitmask.Worm
+        down.zPosition = ObjectsZPositions.middleground
+        self.addChild(down)
+        
+        let up = SKNode()
+        up.physicsBody = SKPhysicsBody(edgeFromPoint: CGPoint(x: CGRectGetMinX(self.frame), y: CGRectGetMaxY(self.frame)),
+                                             toPoint: CGPoint(x: CGRectGetMaxX(self.frame), y: CGRectGetMaxY(self.frame)))
+        up.physicsBody?.categoryBitMask = CollisionCategoryBitmask.Wall
+        up.physicsBody?.contactTestBitMask = CollisionCategoryBitmask.Worm
+        up.physicsBody?.collisionBitMask = CollisionCategoryBitmask.Worm
+        up.zPosition = ObjectsZPositions.middleground
+        self.addChild(up)
+        
+        let left = SKNode()
+        left.physicsBody = SKPhysicsBody(edgeFromPoint: CGPoint(x: CGRectGetMinX(self.frame), y: CGRectGetMinY(self.frame)),
+                                               toPoint: CGPoint(x: CGRectGetMinX(self.frame), y: CGRectGetMaxY(self.frame)))
+        
+        left.physicsBody?.categoryBitMask = CollisionCategoryBitmask.Wall
+        left.physicsBody?.contactTestBitMask = CollisionCategoryBitmask.Worm
+        left.physicsBody?.collisionBitMask = CollisionCategoryBitmask.Worm
+        left.zPosition = ObjectsZPositions.middleground
+        self.addChild(left)
+        
+        let right = SKNode()
+        right.physicsBody = SKPhysicsBody(edgeFromPoint: CGPoint(x: CGRectGetMaxX(self.frame), y: CGRectGetMinY(self.frame)),
+                                                toPoint: CGPoint(x: CGRectGetMaxX(self.frame), y: CGRectGetMaxY(self.frame)))
+        
+        right.physicsBody?.categoryBitMask = CollisionCategoryBitmask.Wall
+        right.physicsBody?.contactTestBitMask = CollisionCategoryBitmask.Worm
+        right.physicsBody?.collisionBitMask = CollisionCategoryBitmask.Worm
+        right.zPosition = ObjectsZPositions.middleground
+        self.addChild(right)
     }
     
     // MARK: - Buttons actions
