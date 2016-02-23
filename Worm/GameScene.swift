@@ -30,11 +30,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
-    private var wormVector: CGVector!
     var vector: CGVector {
         get {
             if worm != nil {
-                return self.wormVector
+                return self.wormVelocity
             } else {
                 return CGVector(dx: 0.0, dy: 0.0)
             }
@@ -52,7 +51,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private let MaxWormAcceleration: CGFloat = 400.0
     private let MaxWormSpeed: CGFloat = 200.0
     private var lastUpdateTime: CFTimeInterval = 0
-    
+
+    // Math
+    let Pi = CGFloat(M_PI)
+    let DegreesToRadius = CGFloat(M_PI) / 180
+    let RadiansToDegrees = 180 / CGFloat(M_PI)
+
     
     // MARK: - Presenting a Scene
     override func didMoveToView(view: SKView) {
@@ -94,7 +98,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    // MARK: - Update Worm
+    // MARK: - Update Worm Sprite
     func updateWormAcceleration() {
         if let acceleration = motionManager.accelerometerData?.acceleration {
             let factor = 0.75
@@ -118,6 +122,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         newX = min(size.width, max(0, newX))
         newY = min(size.height, max(0, newY))
+        
+        let angle = atan2(wormVelocity.dy, wormVelocity.dx)
+        worm.zRotation = angle - 90.0 * DegreesToRadians
     }
     
     // MARK: - Responding to Touch Events
@@ -132,7 +139,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         lastUpdateTime = currentTime
         
         updateWormAcceleration()
-        updateWorm(deltaTime)
+        if (worm.physicsBody?.allowsRotation)! && (worm.physicsBody?.dynamic)! {
+            updateWorm(deltaTime)
+        }
     }
 
     override func didSimulatePhysics() {
@@ -190,6 +199,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func setEndGame() {
         pauseButton.enabled = false
         worm.physicsBody?.dynamic = false
+        worm.physicsBody?.allowsRotation = false
         let endGame = EndGameNode(imageNamed: "Warning", delegate: self)
         endGame.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         self.addChild(endGame)
@@ -271,8 +281,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if playButton != nil {
             playButton.removeFromParent()
         }
-        self.wormVector = worm.physicsBody?.velocity
+        self.wormVelocity = (worm.physicsBody?.velocity)!
         worm.physicsBody?.dynamic = false
+        worm.physicsBody?.allowsRotation = false
         self.addChild(PauseMenu(imageNamed: "PauseMenu", frameSize: self.frame.size, delegate: self))
     }
 }
