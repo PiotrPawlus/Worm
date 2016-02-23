@@ -18,28 +18,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var pointsLabel: PointsCounterNode!
     
     // Physics Bodies
-    var worm: SKSpriteNode!
+    private var worm: SKSpriteNode!
     private var star: SKSpriteNode! // thing to collect
-    var wormDynamic: Bool {
+    var unpauseWorm: Bool {
         get {
-            return (worm.physicsBody?.dynamic)!
+            if worm.physicsBody != nil {
+                return (worm.physicsBody?.dynamic)! && (worm.physicsBody?.allowsRotation)!
+            } else {
+                return false
+            }
         }
         set {
+            self.startMonitoringAcceleratrion()
             if worm != nil {
                 worm.physicsBody?.dynamic = newValue
+                worm.physicsBody?.allowsRotation = newValue
             }
         }
     }
-    var vector: CGVector {
-        get {
-            if worm != nil {
-                return self.wormVelocity
-            } else {
-                return CGVector(dx: 0.0, dy: 0.0)
-            }
-        }
-    }
-    
+        
     // Accelemeter
     private let motionManager = CMMotionManager()
     private var xAcceleration = 0.0
@@ -281,6 +278,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if playButton != nil {
             playButton.removeFromParent()
         }
+        self.stopMoitoringAcceleration()
         self.wormVelocity = (worm.physicsBody?.velocity)!
         worm.physicsBody?.dynamic = false
         worm.physicsBody?.allowsRotation = false

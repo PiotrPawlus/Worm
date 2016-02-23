@@ -59,8 +59,7 @@ class PauseMenu: SKSpriteNode {
     // MARK: - Buttons actions
     func playButton() {
         self.removeFromParent()
-        self.delegate?.wormDynamic = true
-        self.delegate?.worm.physicsBody?.applyImpulse((self.delegate?.vector)!)
+        self.delegate?.unpauseWorm = true
     }
     
     func reloadScene() {
