@@ -54,7 +54,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     // Math
     let Pi = CGFloat(M_PI)
-    let DegreesToRadius = CGFloat(M_PI) / 180
+    let DegreesToRadians = CGFloat(M_PI) / 180
     let RadiansToDegrees = 180 / CGFloat(M_PI)
 
     
