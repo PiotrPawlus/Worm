@@ -14,7 +14,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: - Properties
     private var playButton: SKButton!
     private var pauseButton: SKButton!
-    private let buttonsScale: CGFloat = 0.8
+    private let ButtonsScale: CGFloat = 0.8
     private var pointsLabel: PointsCounterNode!
     
     // Physics Bodies
@@ -43,8 +43,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Accelemeter
     private let motionManager = CMMotionManager()
-    private var xAcceleration: CGFloat = 0.0
-    private var yAcceleration: CGFloat = 0.0
+    private var xAcceleration = 0.0
+    private var yAcceleration = 0.0
+    
+    private var wormAcceleration = CGVector(dx: 0, dy: 0)
+    private var wormVelocity = CGVector(dx: 0, dy: 0)
+    
+    private let MaxWormAcceleration: CGFloat = 400.0
+    private let MaxWormSpeed: CGFloat = 200.0
+    private var lastUpdateTime: CFTimeInterval = 0
+    
     
     // MARK: - Presenting a Scene
     override func didMoveToView(view: SKView) {
@@ -63,13 +71,53 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.createWalls()
         
         // Accelerometer
-        motionManager.accelerometerUpdateInterval = 0.1
-        motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.currentQueue()!) {
-            (accelerometerData: CMAccelerometerData?, error: NSError?) -> Void in
-            let acceleration = accelerometerData!.acceleration
-            self.xAcceleration = CGFloat(acceleration.x) + (self.xAcceleration * 0.25)
-            self.yAcceleration = CGFloat(acceleration.y) + (self.yAcceleration * 0.25)
+        self.startMonitoringAcceleratrion()
+    }
+    
+    // MARK: - Deinitializer
+    deinit {
+        self.stopMoitoringAcceleration()
+    }
+    
+    // MARK: - Handling Core Motion
+    func startMonitoringAcceleratrion() {
+        if motionManager.accelerometerAvailable {
+            motionManager.startAccelerometerUpdates()
+            print("Accelerometer updates on")
         }
+    }
+    
+    func stopMoitoringAcceleration() {
+        if motionManager.accelerometerAvailable && motionManager.accelerometerActive {
+            motionManager.stopAccelerometerUpdates()
+            print("Accelerometer updates off")
+        }
+    }
+    
+    // MARK: - Update Worm
+    func updateWormAcceleration() {
+        if let acceleration = motionManager.accelerometerData?.acceleration {
+            let factor = 0.75
+            self.xAcceleration = acceleration.x * factor + self.xAcceleration * (1 - factor)
+            self.yAcceleration = acceleration.y * factor + self.yAcceleration * (1 - factor)
+            
+            wormAcceleration.dx = CGFloat(self.yAcceleration) * -MaxWormAcceleration
+            wormAcceleration.dy = CGFloat(self.xAcceleration) * MaxWormAcceleration
+        }
+    }
+    
+    func updateWorm(dt: CFTimeInterval) {
+        wormVelocity.dx = wormVelocity.dx + wormAcceleration.dx * CGFloat(dt)
+        wormVelocity.dy = wormVelocity.dy + wormAcceleration.dy * CGFloat(dt)
+
+        wormVelocity.dx = max( -MaxWormSpeed, min(MaxWormSpeed, wormVelocity.dx))
+        wormVelocity.dy = max( -MaxWormSpeed, min(MaxWormSpeed, wormVelocity.dy))
+
+        var newX = worm.position.x + wormVelocity.dx * CGFloat(dt)
+        var newY = worm.position.y + wormVelocity.dy * CGFloat(dt)
+        
+        newX = min(size.width, max(0, newX))
+        newY = min(size.height, max(0, newY))
     }
     
     // MARK: - Responding to Touch Events
@@ -79,6 +127,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: - Executing the Animation Loop
     override func update(currentTime: CFTimeInterval) {
         pointsLabel.pointLabel.text = "\(pointsLabel.points)"
+        
+        let deltaTime = max(1.0/30, currentTime - lastUpdateTime)
+        lastUpdateTime = currentTime
+        
+        updateWormAcceleration()
+        updateWorm(deltaTime)
     }
 
     override func didSimulatePhysics() {
@@ -120,7 +174,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func setPlayButton() {
         playButton = SKButton(defaultButtonImage: "PlayBigButton", activeButtonImage: "PlayBigButtonShadow", buttonAction: removePlayButton)
-        playButton.setScale(self.buttonsScale)
+        playButton.setScale(self.ButtonsScale)
         playButton.zPosition = ObjectsZPositions.hud
         playButton.position = CGPointMake(self.frame.midX, self.frame.midY)
         self.addChild(playButton)
