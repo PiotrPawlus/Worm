@@ -45,8 +45,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var wormAcceleration = CGVector(dx: 0, dy: 0)
     private var wormVelocity = CGVector(dx: 0, dy: 0)
     
-    private let MaxWormAcceleration: CGFloat = 400.0
-    private let MaxWormSpeed: CGFloat = 80.0
+    private let MaxWormAcceleration: CGFloat = 150.0
+    private var MaxWormSpeed: CGFloat = 20.0
     private var lastUpdateTime: CFTimeInterval = 0
 
     // Math
@@ -142,10 +142,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if (worm.physicsBody?.allowsRotation)! && (worm.physicsBody?.dynamic)! {
             updateWorm(deltaTime)
         }
-    }
-
-    override func didSimulatePhysics() {
-        worm.physicsBody?.velocity = CGVector(dx: xAcceleration * 400, dy: yAcceleration * 400)
     }
     
     // MARK: - Responding to Contact Events
