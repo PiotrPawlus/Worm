@@ -121,7 +121,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         newY = min(size.height, max(0, newY))
         
         let angle = atan2(wormVelocity.dy, wormVelocity.dx)
-        worm.zRotation = angle - 90.0 * DegreesToRadians
+        worm.zRotation = angle + 180.0 * DegreesToRadians
     }
     
     // MARK: - Responding to Touch Events
@@ -139,6 +139,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if (worm.physicsBody?.allowsRotation)! && (worm.physicsBody?.dynamic)! {
             updateWorm(deltaTime)
         }
+        print("Prędkość: \(wormVelocity)")//, Przyspieszenie: \(wormAcceleration)")
     }
 
     override func didSimulatePhysics() {
@@ -197,6 +198,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         pauseButton.enabled = false
         worm.physicsBody?.dynamic = false
         worm.physicsBody?.allowsRotation = false
+        self.stopMoitoringAcceleration()
         let endGame = EndGameNode(imageNamed: "Warning", delegate: self)
         endGame.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         self.addChild(endGame)
@@ -204,7 +206,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: - GameScene Physic Bodies
     func createWorm() {
-        worm = SKSpriteNode(imageNamed: "Worm")
+        worm = SKSpriteNode(imageNamed: "robak")
         worm.position = CGPointMake(self.frame.midX, self.frame.midY)
         worm.zPosition = ObjectsZPositions.middleground
         worm.setScale(0.5) // to delete, replace with new worm sprite
