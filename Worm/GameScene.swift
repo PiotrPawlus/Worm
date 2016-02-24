@@ -198,7 +198,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         worm.physicsBody?.dynamic = false
         worm.physicsBody?.allowsRotation = false
         self.stopMoitoringAcceleration()
-        let endGame = EndGameNode(imageNamed: "Warning", delegate: self)
+        let endGame = EndGameNode(imageNamed: "EndGame", delegate: self)
         endGame.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         self.addChild(endGame)
     }
