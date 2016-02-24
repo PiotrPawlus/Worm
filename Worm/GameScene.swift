@@ -73,6 +73,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Accelerometer
         self.startMonitoringAcceleratrion()
+        
+        PauseMenu.gamePaused = false
+        EndGameNode.endGame = false
     }
     
     // MARK: - Deinitializer
@@ -165,7 +168,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
 
         if bodyA.categoryBitMask == CollisionCategoryBitmask.Wall || bodyB.categoryBitMask == CollisionCategoryBitmask.Wall {
-            self.setEndGame()
+            if !PauseMenu.gamePaused {
+                self.setEndGame()
+            }
         }
     }
     
@@ -194,13 +199,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setEndGame() {
-        pauseButton.enabled = false
-        worm.physicsBody?.dynamic = false
-        worm.physicsBody?.allowsRotation = false
-        self.stopMoitoringAcceleration()
-        let endGame = EndGameNode(imageNamed: "EndGame", delegate: self)
-        endGame.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        self.addChild(endGame)
+        if !PauseMenu.gamePaused {
+            pauseButton.enabled = false
+            EndGameNode.endGame = true
+            worm.physicsBody?.dynamic = false
+            worm.physicsBody?.allowsRotation = false
+            self.stopMoitoringAcceleration()
+            let endGame = EndGameNode(imageNamed: "EndGame", delegate: self)
+            endGame.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+            self.addChild(endGame)
+        }
     }
     
     // MARK: - GameScene Physic Bodies
@@ -276,13 +284,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func pauseGame() {
-        if playButton != nil {
-            playButton.removeFromParent()
+        if !EndGameNode.endGame {
+            self.wormVelocity = (worm.physicsBody?.velocity)!
+            worm.physicsBody?.dynamic = false
+            worm.physicsBody?.allowsRotation = false
+            PauseMenu.gamePaused = true
+            if playButton != nil {
+                playButton.removeFromParent()
+            }
+            self.stopMoitoringAcceleration()
+            self.addChild(PauseMenu(imageNamed: "PauseMenu", frameSize: self.frame.size, delegate: self))
         }
-        self.stopMoitoringAcceleration()
-        self.wormVelocity = (worm.physicsBody?.velocity)!
-        worm.physicsBody?.dynamic = false
-        worm.physicsBody?.allowsRotation = false
-        self.addChild(PauseMenu(imageNamed: "PauseMenu", frameSize: self.frame.size, delegate: self))
     }
 }

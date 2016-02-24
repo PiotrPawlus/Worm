@@ -12,6 +12,7 @@ class EndGameNode: SKSpriteNode {
 
     private weak var delegate: GameScene!
     private var endGameSize: CGSize!
+    static var endGame: Bool = false
     
     // MARK: - initializers
     required init?(coder aDecoder: NSCoder) {
