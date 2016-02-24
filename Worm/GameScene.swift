@@ -18,6 +18,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var pointsLabel: PointsCounterNode!
     private var hudBar: SKSpriteNode!
     
+    // TIMER
+    private var timerLabel: SKLabelNode!
+    
     // Physics Bodies
     private var worm: SKSpriteNode!
     private var star: SKSpriteNode! // thing to collect
@@ -59,6 +62,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: - Presenting a Scene
     override func didMoveToView(view: SKView) {
         physicsWorld.contactDelegate = self
+        
+        self.addTimer()
         
         self.background()
         self.setPlayButton()
@@ -136,6 +141,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: - Executing the Animation Loop
     override func update(currentTime: CFTimeInterval) {
+        
+        timerLabel.text = "\(NSDate().timeIntervalSince1970 * 1000 / 33)"
+        
+        
         pointsLabel.pointLabel.text = "\(pointsLabel.points)"
         
         let deltaTime = max(1.0/30, currentTime - lastUpdateTime)
@@ -301,5 +310,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.stopMoitoringAcceleration()
             self.addChild(PauseMenu(imageNamed: "PauseMenu", frameSize: self.frame.size, delegate: self))
         }
+    }
+    
+    // MARK: - Server Info
+    func addTimer() {
+        let block = SKSpriteNode(imageNamed: "block")
+        block.zPosition = ObjectsZPositions.hud
+        block.position = CGPointMake(self.frame.maxX * 2/9, self.frame.maxY * 1/64)
+        
+        timerLabel = SKLabelNode(text: "UTC: \(NSDate().timeIntervalSince1970 * 1000 / 33) ")
+        timerLabel.fontName = "Arial-Bold"
+        timerLabel.fontSize = 10
+        timerLabel.position = CGPointMake(0.0, 0.0)
+        timerLabel.zPosition = ObjectsZPositions.hudObjects
+        
+
+        self.addChild(block)
+        block.addChild(timerLabel)
     }
 }
