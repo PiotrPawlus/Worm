@@ -87,14 +87,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func startMonitoringAcceleratrion() {
         if motionManager.accelerometerAvailable {
             motionManager.startAccelerometerUpdates()
-            print("Accelerometer updates on")
         }
     }
     
     func stopMoitoringAcceleration() {
         if motionManager.accelerometerAvailable && motionManager.accelerometerActive {
             motionManager.stopAccelerometerUpdates()
-            print("Accelerometer updates off")
         }
     }
     
