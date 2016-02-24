@@ -46,7 +46,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var wormVelocity = CGVector(dx: 0, dy: 0)
     
     private let MaxWormAcceleration: CGFloat = 400.0
-    private let MaxWormSpeed: CGFloat = 200.0
+    private let MaxWormSpeed: CGFloat = 80.0
     private var lastUpdateTime: CFTimeInterval = 0
 
     // Math
@@ -102,8 +102,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.xAcceleration = acceleration.x * factor + self.xAcceleration * (1 - factor)
             self.yAcceleration = acceleration.y * factor + self.yAcceleration * (1 - factor)
             
-            wormAcceleration.dx = CGFloat(self.yAcceleration) * -MaxWormAcceleration
-            wormAcceleration.dy = CGFloat(self.xAcceleration) * MaxWormAcceleration
+            wormAcceleration.dx = CGFloat(self.xAcceleration) * MaxWormAcceleration
+            wormAcceleration.dy = CGFloat(self.yAcceleration) * MaxWormAcceleration
         }
     }
     
@@ -119,6 +119,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         newX = min(size.width, max(0, newX))
         newY = min(size.height, max(0, newY))
+        
+        worm.position = CGPoint(x: newX, y: newY)
+
         
         let angle = atan2(wormVelocity.dy, wormVelocity.dx)
         worm.zRotation = angle + 180.0 * DegreesToRadians
@@ -139,7 +142,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if (worm.physicsBody?.allowsRotation)! && (worm.physicsBody?.dynamic)! {
             updateWorm(deltaTime)
         }
-        print("Prędkość: \(wormVelocity)")//, Przyspieszenie: \(wormAcceleration)")
     }
 
     override func didSimulatePhysics() {
