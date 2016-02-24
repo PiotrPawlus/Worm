@@ -196,7 +196,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         hudBar.zPosition = ObjectsZPositions.hud
         hudBar.position = CGPointMake(self.frame.midX, self.frame.maxY * 15/16)
         
-        let hudSize = CGSize(width: hudBar.size.width, height: hudBar.size.height * 14/16)
+        let hudSize = CGSize(width: hudBar.size.width, height: hudBar.size.height * 7/8)
         hudBar.physicsBody = SKPhysicsBody(rectangleOfSize: hudSize)
         hudBar.physicsBody?.categoryBitMask = CollisionCategoryBitmask.Wall
         hudBar.physicsBody?.contactTestBitMask = CollisionCategoryBitmask.Worm
@@ -262,19 +262,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         down.zPosition = ObjectsZPositions.middleground
         self.addChild(down)
         
-        let up = SKNode()
-        up.physicsBody = SKPhysicsBody(edgeFromPoint: CGPoint(x: CGRectGetMinX(self.frame), y: CGRectGetMaxY(self.frame)),
-                                             toPoint: CGPoint(x: CGRectGetMaxX(self.frame), y: CGRectGetMaxY(self.frame)))
-        up.physicsBody?.categoryBitMask = CollisionCategoryBitmask.Wall
-        up.physicsBody?.contactTestBitMask = CollisionCategoryBitmask.Worm
-        up.physicsBody?.collisionBitMask = CollisionCategoryBitmask.Worm
-        up.zPosition = ObjectsZPositions.middleground
-        self.addChild(up)
-        
         let left = SKNode()
         left.physicsBody = SKPhysicsBody(edgeFromPoint: CGPoint(x: CGRectGetMinX(self.frame), y: CGRectGetMinY(self.frame)),
                                                toPoint: CGPoint(x: CGRectGetMinX(self.frame), y: CGRectGetMaxY(self.frame)))
-        
         left.physicsBody?.categoryBitMask = CollisionCategoryBitmask.Wall
         left.physicsBody?.contactTestBitMask = CollisionCategoryBitmask.Worm
         left.physicsBody?.collisionBitMask = CollisionCategoryBitmask.Worm
@@ -284,7 +274,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let right = SKNode()
         right.physicsBody = SKPhysicsBody(edgeFromPoint: CGPoint(x: CGRectGetMaxX(self.frame), y: CGRectGetMinY(self.frame)),
                                                 toPoint: CGPoint(x: CGRectGetMaxX(self.frame), y: CGRectGetMaxY(self.frame)))
-        
         right.physicsBody?.categoryBitMask = CollisionCategoryBitmask.Wall
         right.physicsBody?.contactTestBitMask = CollisionCategoryBitmask.Worm
         right.physicsBody?.collisionBitMask = CollisionCategoryBitmask.Worm
