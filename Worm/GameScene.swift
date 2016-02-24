@@ -247,8 +247,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func createPoint() {
         star = Point(imageNamed: "Star", delegate: self)
-        star.position = CGPointMake(CGFloat(arc4random() % UInt32(self.frame.maxX - self.frame.maxX * 1/8)),
-                                    CGFloat(arc4random() % UInt32(self.frame.maxY - self.pointsLabel.size.height - self.frame.height * 1/16)))
+        
+        let maxY = self.frame.maxY - self.hudBar.size.height
+        star.position = CGPointMake( CGFloat(arc4random() % UInt32(self.frame.maxX * 7/9)) + self.frame.maxX * 1/9 ,
+                                     CGFloat(arc4random() % UInt32(maxY * 7/9)) + maxY * 1/9)
         self.addChild(star)
     }
     
