@@ -20,6 +20,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // TIMER
     private var timerLabel: SKLabelNode!
+    var timestamp: NSTimeInterval {
+        get {
+            return NSDate().timeIntervalSince1970 * 1000 / 33
+        }
+    }
     
     // Physics Bodies
     private var worm: SKSpriteNode!
@@ -62,9 +67,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: - Presenting a Scene
     override func didMoveToView(view: SKView) {
         physicsWorld.contactDelegate = self
-        
         self.addTimer()
-        
         self.background()
         self.setPlayButton()
         self.setHud()
@@ -142,7 +145,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: - Executing the Animation Loop
     override func update(currentTime: CFTimeInterval) {
         
-        timerLabel.text = "\(NSDate().timeIntervalSince1970 * 1000 / 33)"
+        timerLabel.text = "\(timestamp)"
         
         
         pointsLabel.pointLabel.text = "\(pointsLabel.points)"
@@ -318,7 +321,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         block.zPosition = ObjectsZPositions.hud
         block.position = CGPointMake(self.frame.maxX * 2/9, self.frame.maxY * 1/64)
         
-        timerLabel = SKLabelNode(text: "UTC: \(NSDate().timeIntervalSince1970 * 1000 / 33) ")
+        timerLabel = SKLabelNode(text: "UTC: \(timestamp)")
         timerLabel.fontName = "Arial-Bold"
         timerLabel.fontSize = 10
         timerLabel.position = CGPointMake(0.0, 0.0)
