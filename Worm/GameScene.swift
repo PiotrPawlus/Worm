@@ -124,7 +124,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         
         let angle = atan2(wormVelocity.dy, wormVelocity.dx)
-        worm.zRotation = angle + 180.0 * DegreesToRadians
+        worm.zRotation = angle + 90.0 * DegreesToRadians
     }
     
     // MARK: - Responding to Touch Events
