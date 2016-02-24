@@ -46,7 +46,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var wormVelocity = CGVector(dx: 0, dy: 0)
     
     private let MaxWormAcceleration: CGFloat = 150.0
-    private var MaxWormSpeed: CGFloat = 20.0
+    private var maxWormSpeed: CGFloat = 20.0
     private var lastUpdateTime: CFTimeInterval = 0
 
     // Math
@@ -111,8 +111,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         wormVelocity.dx = wormVelocity.dx + wormAcceleration.dx * CGFloat(dt)
         wormVelocity.dy = wormVelocity.dy + wormAcceleration.dy * CGFloat(dt)
 
-        wormVelocity.dx = max( -MaxWormSpeed, min(MaxWormSpeed, wormVelocity.dx))
-        wormVelocity.dy = max( -MaxWormSpeed, min(MaxWormSpeed, wormVelocity.dy))
+        wormVelocity.dx = max( -maxWormSpeed, min(maxWormSpeed, wormVelocity.dx))
+        wormVelocity.dy = max( -maxWormSpeed, min(maxWormSpeed, wormVelocity.dy))
 
         var newX = worm.position.x + wormVelocity.dx * CGFloat(dt)
         var newY = worm.position.y + wormVelocity.dy * CGFloat(dt)
@@ -161,6 +161,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             star.removeFromParent()
             self.createPoint()
             pointsLabel.points += 1
+            self.maxWormSpeed += 2.5
         }
 
         if bodyA.categoryBitMask == CollisionCategoryBitmask.Wall || bodyB.categoryBitMask == CollisionCategoryBitmask.Wall {
