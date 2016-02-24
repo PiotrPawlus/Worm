@@ -196,6 +196,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         hudBar.zPosition = ObjectsZPositions.hud
         hudBar.position = CGPointMake(self.frame.midX, self.frame.maxY * 15/16)
         
+        let hudSize = CGSize(width: hudBar.size.width, height: hudBar.size.height * 14/16)
+        hudBar.physicsBody = SKPhysicsBody(rectangleOfSize: hudSize)
+        hudBar.physicsBody?.categoryBitMask = CollisionCategoryBitmask.Wall
+        hudBar.physicsBody?.contactTestBitMask = CollisionCategoryBitmask.Worm
+        hudBar.physicsBody?.collisionBitMask = CollisionCategoryBitmask.Worm
+        hudBar.physicsBody?.affectedByGravity = false
+        hudBar.physicsBody?.dynamic = false
         self.addChild(hudBar)
     }
     
