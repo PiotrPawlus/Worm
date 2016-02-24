@@ -27,7 +27,7 @@ class PointsCounterNode: SKSpriteNode {
         pointsNodeSize = CGSize(width: texture.size().width, height: texture.size().height)
         super.init(texture: texture, color: UIColor.clearColor(), size: pointsNodeSize)
         self.position = CGPointMake(frameSize.width / 2, frameSize.height / 2)
-        self.zPosition = ObjectsZPositions.hud
+        self.zPosition = ObjectsZPositions.hudObjects
     
         self.setPointLabel()
     }

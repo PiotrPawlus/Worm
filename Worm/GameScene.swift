@@ -16,6 +16,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var pauseButton: SKButton!
     private let ButtonsScale: CGFloat = 0.8
     private var pointsLabel: PointsCounterNode!
+    private var hudBar: SKSpriteNode!
     
     // Physics Bodies
     private var worm: SKSpriteNode!
@@ -61,6 +62,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         self.background()
         self.setPlayButton()
+        self.setHud()
         self.setPauseButton()
         pointsLabel = PointsCounterNode(imageNamed: "Points", frameSize: self.frame.size, delegate: self)
         pointsLabel.position = CGPointMake(self.frame.maxX * 15/16 - pointsLabel.size.width / 2, self.frame.maxY * 15/16)
@@ -189,9 +191,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(playButton)
     }
     
+    func setHud() {
+        hudBar = SKSpriteNode(imageNamed: "bar_v2")
+        hudBar.zPosition = ObjectsZPositions.hud
+        hudBar.position = CGPointMake(self.frame.midX, self.frame.maxY * 15/16)
+        
+        self.addChild(hudBar)
+    }
+    
     func setPauseButton() {
         pauseButton = SKButton(defaultButtonImage: "PauseButton", activeButtonImage: "PauseButtonShadow", buttonAction: pauseGame)
-        pauseButton.zPosition = ObjectsZPositions.hud
+        pauseButton.zPosition = ObjectsZPositions.hudObjects
         pauseButton.position = CGPointMake(self.frame.maxX * 1/10, self.frame.maxY * 15/16)
         self.addChild(pauseButton)
     }
