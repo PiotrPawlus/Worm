@@ -102,7 +102,6 @@
 				C1177FCB1C74E4C20088114C /* LaunchScreen.storyboard */,
 				C1912ADD1C75ABAA00CEC03A /* Structs */,
 				C1912ADC1C75AB9400CEC03A /* SupportFiles */,
-				C155493B1C7F1C64002D4AB8 /* Worm-Bridging-Header.h */,
 			);
 			path = Worm;
 			sourceTree = "<group>";
@@ -122,6 +121,7 @@
 		C1912ADC1C75AB9400CEC03A /* SupportFiles */ = {
 			isa = PBXGroup;
 			children = (
+				C155493B1C7F1C64002D4AB8 /* Worm-Bridging-Header.h */,
 				C1177FCE1C74E4C20088114C /* Info.plist */,
 			);
 			name = SupportFiles;

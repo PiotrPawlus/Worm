@@ -20,7 +20,7 @@ class PauseMenu: SKSpriteNode {
     }
     
     init(imageNamed: String, frameSize: CGSize, delegate: SKScene) {
-  
+        
         let texture = SKTexture(imageNamed: imageNamed)
         
         self.delegate = delegate
@@ -64,6 +64,7 @@ class PauseMenu: SKSpriteNode {
     // MARK: - Buttons actions
     func playButton() {
         self.removeFromParent()
+        
         if self.delegate is GameScene {
             (self.delegate as! GameScene).unpauseWorm = true
         } else if self.delegate is GameSceneMP {
