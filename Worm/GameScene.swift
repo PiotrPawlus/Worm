@@ -18,14 +18,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var pointsLabel: PointsCounterNode!
     private var hudBar: SKSpriteNode!
     
-    // TIMER
-    private var timerLabel: SKLabelNode!
-    var timestamp: NSTimeInterval {
-        get {
-            return NSDate().timeIntervalSince1970 * 1000 / 33
-        }
-    }
-    
     // Physics Bodies
     private var worm: SKSpriteNode!
     private var star: SKSpriteNode! // thing to collect
@@ -85,9 +77,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         PauseMenu.gamePaused = false
         EndGameNode.endGame = false
         
-        // Chosing game state
-        gameState = GameState.SinglePlayer
-        
     }
     
     // MARK: - Deinitializer
@@ -146,9 +135,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: - Executing the Animation Loop
     override func update(currentTime: CFTimeInterval) {
-        
-        timerLabel.text = "\(timestamp)"
-        
         
         pointsLabel.pointLabel.text = "\(pointsLabel.points)"
         

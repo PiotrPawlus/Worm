@@ -20,6 +20,16 @@ class PauseMenu: SKSpriteNode {
     }
     
     init(imageNamed: String, frameSize: CGSize, delegate: GameScene) {
+        
+//        let state = delegate.gameState
+//        switch state {
+//        case .SinglePlayer:
+//            self.delegate = delegate as! GameScene
+//        case .MultiPlayer:
+//            self.delegate = delegate as! GameSceneMP
+//        }
+//        
+        
         let texture = SKTexture(imageNamed: imageNamed)
         
         self.delegate = delegate

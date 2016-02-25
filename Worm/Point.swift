@@ -9,14 +9,18 @@
 import SpriteKit
 
 class Point: SKSpriteNode {
-    private weak var delegate: GameScene!
+    private weak var delegate: SKScene!
     
     // MARK: - initializers
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    init(imageNamed: String, delegate: GameScene) {
+    init(imageNamed: String, delegate: SKScene) {
+        
+        self.delegate = delegate
+        
+        
         let texture = SKTexture(imageNamed: imageNamed)
         self.delegate = delegate
         let pointSzie = texture.size()
