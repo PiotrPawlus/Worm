@@ -8,6 +8,21 @@
 
 import SpriteKit
 
+enum GameState {
+    case SinglePlayer, Multiplayer
+}
+
+extension SKScene {
+    var gameState: GameState? {
+        get {
+            return (self.gameState)!
+        }
+        set {
+            self.gameState = (newValue)!
+        }
+    }
+}
+
 class MenuScene: SKScene {
 
     private let buttonsScale: CGFloat = 0.8
