@@ -222,7 +222,7 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     }
     
     func setHud() {
-        hudBar = SKSpriteNode(imageNamed: "bar_v2")
+        hudBar = SKSpriteNode(imageNamed: "bar")
         hudBar.zPosition = ObjectsZPositions.hud
         hudBar.position = CGPointMake(self.frame.midX, self.frame.maxY * 15/16)
         
