@@ -26,6 +26,7 @@
 		C1912AE71C770CD300CEC03A /* CollisionCategoryBitmask.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1912AE61C770CD300CEC03A /* CollisionCategoryBitmask.swift */; };
 		C1912AE91C773DED00CEC03A /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1912AE81C773DED00CEC03A /* Point.swift */; };
 		C1912AEB1C7741DB00CEC03A /* EndGameNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1912AEA1C7741DB00CEC03A /* EndGameNode.swift */; };
+		C1E611701C7F319200634527 /* GameSceneMP.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E6116F1C7F319200634527 /* GameSceneMP.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		C1912AE61C770CD300CEC03A /* CollisionCategoryBitmask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollisionCategoryBitmask.swift; sourceTree = "<group>"; };
 		C1912AE81C773DED00CEC03A /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		C1912AEA1C7741DB00CEC03A /* EndGameNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EndGameNode.swift; sourceTree = "<group>"; };
+		C1E6116F1C7F319200634527 /* GameSceneMP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSceneMP.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 				C1912AE01C75CBDD00CEC03A /* GameScene.swift */,
 				C1912AEA1C7741DB00CEC03A /* EndGameNode.swift */,
 				C1912AE61C770CD300CEC03A /* CollisionCategoryBitmask.swift */,
+				C1E6116F1C7F319200634527 /* GameSceneMP.swift */,
 				C1912AE41C75FF7B00CEC03A /* PointsCounterNode.swift */,
 				C1912AE81C773DED00CEC03A /* Point.swift */,
 				C1912AE21C75DB2700CEC03A /* PauseMenu.swift */,
@@ -208,6 +211,7 @@
 				C15549421C7F1C65002D4AB8 /* ytcpsocket.c in Sources */,
 				C1912ADF1C75B8D000CEC03A /* SKButton.swift in Sources */,
 				C1912AD91C75A48F00CEC03A /* MenuScene.swift in Sources */,
+				C1E611701C7F319200634527 /* GameSceneMP.swift in Sources */,
 				C1912AEB1C7741DB00CEC03A /* EndGameNode.swift in Sources */,
 				C1912ADB1C75AADD00CEC03A /* ObjectsZPositions.swift in Sources */,
 				C15549451C7F1C65002D4AB8 /* yudpsocket.swift in Sources */,
