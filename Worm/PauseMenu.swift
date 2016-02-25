@@ -66,11 +66,8 @@ class PauseMenu: SKSpriteNode {
         self.removeFromParent()
         
         if self.delegate is GameScene {
-            print("TAK")
+            (self.delegate as! GameScene).unpauseWorm = true
         }
-        
-        
-//        self.delegate?.unpauseWorm = true
         PauseMenu.gamePaused = false
     }
     
