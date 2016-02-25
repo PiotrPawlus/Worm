@@ -11,7 +11,7 @@ import SpriteKit
 class PauseMenu: SKSpriteNode {
 
     private var pauseMenuSize: CGSize!
-    private weak var delegate: GameScene!
+    private weak var delegate: SKScene!
     static var gamePaused: Bool = false
     
     // MARK: - initializers
@@ -19,17 +19,8 @@ class PauseMenu: SKSpriteNode {
         super.init(coder: aDecoder)
     }
     
-    init(imageNamed: String, frameSize: CGSize, delegate: GameScene) {
-        
-//        let state = delegate.gameState
-//        switch state {
-//        case .SinglePlayer:
-//            self.delegate = delegate as! GameScene
-//        case .MultiPlayer:
-//            self.delegate = delegate as! GameSceneMP
-//        }
-//        
-        
+    init(imageNamed: String, frameSize: CGSize, delegate: SKScene) {
+  
         let texture = SKTexture(imageNamed: imageNamed)
         
         self.delegate = delegate
@@ -72,7 +63,11 @@ class PauseMenu: SKSpriteNode {
     // MARK: - Buttons actions
     func playButton() {
         self.removeFromParent()
-        self.delegate?.unpauseWorm = true
+        if self.delegate is GameScene {
+            (self.delegate as! GameScene).unpauseWorm = true
+        } else if self.delegate is GameSceneMP {
+            (self.delegate as! GameSceneMP).unpauseWorm = true
+        }
         PauseMenu.gamePaused = false
     }
     
