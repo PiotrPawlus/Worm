@@ -17,6 +17,7 @@
 		C15549431C7F1C65002D4AB8 /* ytcpsocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = C155493E1C7F1C65002D4AB8 /* ytcpsocket.swift */; };
 		C15549441C7F1C65002D4AB8 /* yudpsocket.c in Sources */ = {isa = PBXBuildFile; fileRef = C155493F1C7F1C65002D4AB8 /* yudpsocket.c */; };
 		C15549451C7F1C65002D4AB8 /* yudpsocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15549401C7F1C65002D4AB8 /* yudpsocket.swift */; };
+		C15549481C7F248A002D4AB8 /* GameSceneMP.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15549471C7F248A002D4AB8 /* GameSceneMP.swift */; };
 		C1912AD91C75A48F00CEC03A /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1912AD81C75A48F00CEC03A /* MenuScene.swift */; };
 		C1912ADB1C75AADD00CEC03A /* ObjectsZPositions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1912ADA1C75AADD00CEC03A /* ObjectsZPositions.swift */; };
 		C1912ADF1C75B8D000CEC03A /* SKButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1912ADE1C75B8D000CEC03A /* SKButton.swift */; };
@@ -42,6 +43,7 @@
 		C155493E1C7F1C65002D4AB8 /* ytcpsocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ytcpsocket.swift; sourceTree = "<group>"; };
 		C155493F1C7F1C65002D4AB8 /* yudpsocket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = yudpsocket.c; sourceTree = "<group>"; };
 		C15549401C7F1C65002D4AB8 /* yudpsocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = yudpsocket.swift; sourceTree = "<group>"; };
+		C15549471C7F248A002D4AB8 /* GameSceneMP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSceneMP.swift; sourceTree = "<group>"; };
 		C1912AD81C75A48F00CEC03A /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		C1912ADA1C75AADD00CEC03A /* ObjectsZPositions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectsZPositions.swift; sourceTree = "<group>"; };
 		C1912ADE1C75B8D000CEC03A /* SKButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKButton.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 				C1177FBE1C74E4C20088114C /* AppDelegate.swift */,
 				C1912AD81C75A48F00CEC03A /* MenuScene.swift */,
 				C1912AE01C75CBDD00CEC03A /* GameScene.swift */,
+				C15549471C7F248A002D4AB8 /* GameSceneMP.swift */,
 				C1912AEA1C7741DB00CEC03A /* EndGameNode.swift */,
 				C1912AE61C770CD300CEC03A /* CollisionCategoryBitmask.swift */,
 				C1912AE41C75FF7B00CEC03A /* PointsCounterNode.swift */,
@@ -208,6 +211,7 @@
 				C15549421C7F1C65002D4AB8 /* ytcpsocket.c in Sources */,
 				C1912ADF1C75B8D000CEC03A /* SKButton.swift in Sources */,
 				C1912AD91C75A48F00CEC03A /* MenuScene.swift in Sources */,
+				C15549481C7F248A002D4AB8 /* GameSceneMP.swift in Sources */,
 				C1912AEB1C7741DB00CEC03A /* EndGameNode.swift in Sources */,
 				C1912ADB1C75AADD00CEC03A /* ObjectsZPositions.swift in Sources */,
 				C15549451C7F1C65002D4AB8 /* yudpsocket.swift in Sources */,
