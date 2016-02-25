@@ -63,14 +63,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let DegreesToRadians = CGFloat(M_PI) / 180
     let RadiansToDegrees = 180 / CGFloat(M_PI)
     
-    // Client Socket
-    var client: TCPClient!
-
-    
     // MARK: - Presenting a Scene
     override func didMoveToView(view: SKView) {
         physicsWorld.contactDelegate = self
-        self.addTimer()
         self.background()
         self.setPlayButton()
         self.setHud()
@@ -90,20 +85,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         PauseMenu.gamePaused = false
         EndGameNode.endGame = false
         
-        // Client
-        client = TCPClient(addr: "Piotrs-MacBook-Pro.local", port:  50000)
-        var (success, errmsg) = client.connect(timeout: 1)
-        if success {
-            let (success, errmsg) = client.send(str: "Cześć\n")
-            if success {
-                print("Sukces")
-            } else {
-                print(errmsg)
-            }
-        } else {
-            print(errmsg)
-        }
-        (success, errmsg) = client.close()
+        // Chosing game state
+        gameState = GameState.SinglePlayer
         
     }
     
@@ -332,22 +315,5 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.stopMoitoringAcceleration()
             self.addChild(PauseMenu(imageNamed: "PauseMenu", frameSize: self.frame.size, delegate: self))
         }
-    }
-    
-    // MARK: - Server Info
-    func addTimer() {
-        let block = SKSpriteNode(imageNamed: "block")
-        block.zPosition = ObjectsZPositions.hud
-        block.position = CGPointMake(self.frame.maxX * 2/9, self.frame.maxY * 1/64)
-        
-        timerLabel = SKLabelNode(text: "UTC: \(timestamp)")
-        timerLabel.fontName = "Arial-Bold"
-        timerLabel.fontSize = 10
-        timerLabel.position = CGPointMake(0.0, 0.0)
-        timerLabel.zPosition = ObjectsZPositions.hudObjects
-        
-
-        self.addChild(block)
-        block.addChild(timerLabel)
     }
 }
