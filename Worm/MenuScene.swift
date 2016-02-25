@@ -13,7 +13,6 @@ class MenuScene: SKScene {
     private let buttonsScale: CGFloat = 0.8
     // MARK: - Presenting a Scene
     override func didMoveToView(view: SKView) {
-
         self.background()
         self.singlePlayerBtn()
         self.multiPlayerBtn()

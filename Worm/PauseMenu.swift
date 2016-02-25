@@ -24,6 +24,7 @@ class PauseMenu: SKSpriteNode {
         let texture = SKTexture(imageNamed: imageNamed)
         
         self.delegate = delegate
+    
         pauseMenuSize = CGSize(width: texture.size().width, height: texture.size().height)
         super.init(texture: texture, color: UIColor.clearColor(), size: pauseMenuSize)
         self.position = CGPointMake(frameSize.width / 2, frameSize.height / 2)

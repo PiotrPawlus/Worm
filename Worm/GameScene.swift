@@ -57,6 +57,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: - Presenting a Scene
     override func didMoveToView(view: SKView) {
+        
         physicsWorld.contactDelegate = self
         self.background()
         self.setPlayButton()
@@ -192,7 +193,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setHud() {
-        hudBar = SKSpriteNode(imageNamed: "bar_v2")
+        hudBar = SKSpriteNode(imageNamed: "bar")
         hudBar.zPosition = ObjectsZPositions.hud
         hudBar.position = CGPointMake(self.frame.midX, self.frame.maxY * 15/16)
         
