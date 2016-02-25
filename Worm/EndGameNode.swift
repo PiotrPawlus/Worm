@@ -10,7 +10,7 @@ import SpriteKit
 
 class EndGameNode: SKSpriteNode {
 
-    private weak var delegate: GameScene!
+    private weak var delegate: SKScene!
     private var endGameSize: CGSize!
     static var endGame: Bool = false
     
@@ -19,7 +19,7 @@ class EndGameNode: SKSpriteNode {
         super.init(coder: aDecoder)
     }
     
-    init(imageNamed: String, delegate: GameScene) {
+    init(imageNamed: String, delegate: SKScene) {
         self.delegate = delegate
         
         let texture = SKTexture(imageNamed: imageNamed)
