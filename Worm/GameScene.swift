@@ -62,6 +62,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let Pi = CGFloat(M_PI)
     let DegreesToRadians = CGFloat(M_PI) / 180
     let RadiansToDegrees = 180 / CGFloat(M_PI)
+    
+    // Client Socket
+    var client: TCPClient!
 
     
     // MARK: - Presenting a Scene
@@ -86,6 +89,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         PauseMenu.gamePaused = false
         EndGameNode.endGame = false
+        
+        // Client
+        client = TCPClient(addr: "Piotrs-MacBook-Pro.local", port:  50000)
+        var (success, errmsg) = client.connect(timeout: 1)
+        if success {
+            let (success, errmsg) = client.send(str: "Cześć\n")
+            if success {
+                print("Sukces")
+            } else {
+                print(errmsg)
+            }
+        } else {
+            print(errmsg)
+        }
+        (success, errmsg) = client.close()
+        
     }
     
     // MARK: - Deinitializer
