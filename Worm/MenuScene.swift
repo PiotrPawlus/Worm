@@ -50,7 +50,7 @@ class MenuScene: SKScene {
         let multiPlayerBtn = SKButton(defaultButtonImage: "MultiPlayer", activeButtonImage: "MultiPlayerShadow", disabledButtonImage: "MultiPlayerLocked", buttonAction: goToMultiPlayerScene)
         multiPlayerBtn.zPosition = ObjectsZPositions.hud
         multiPlayerBtn.setScale(self.buttonsScale)
-        multiPlayerBtn.enabled = false
+        multiPlayerBtn.enabled = true
         multiPlayerBtn.position = CGPointMake(self.frame.midX, self.frame.maxY * 4/9)
         self.addChild(multiPlayerBtn)
     }
@@ -64,12 +64,10 @@ class MenuScene: SKScene {
     
     // MARK: - Present a Scene
     func goToSinglePlayerScene() {
-        print("SINGLE PLAYER SCENE WILL PRESENT HERE")
         self.view!.presentScene(GameScene(size: self.size), transition: SKTransition.fadeWithDuration(0.5))
     }
     
     func goToMultiPlayerScene() {
-        print("MULTIPLAYER SCENE WILL PRESETN HERE")
-        self.view!.presentScene(GameScene(size: self.size), transition: SKTransition.fadeWithDuration(0.5))
+        self.view!.presentScene(GameSceneMP(size: self.size), transition: SKTransition.fadeWithDuration(0.5))
     }
 }
