@@ -19,11 +19,12 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     
     // TIMER
     private var timerLabel: SKLabelNode!
-    var timestamp: NSTimeInterval {
+    var timestamp: NSTimeInterval { // in miliseconds
         get {
             return NSDate().timeIntervalSince1970 * 1000
         }
     }
+    var lastupdate: NSTimeInterval!
     
     // Physics Bodies
     private var worm: SKSpriteNode!
@@ -153,7 +154,12 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
         
         self.updateTimer()
         if motionMenagerActive {
-            server.sendPosition(self.worm.position)
+            // NSTimeInterval - in seconds
+            let timeSinceLastUpdate = timestamp - lastupdate
+            if timeSinceLastUpdate >= 1000 / 33 {
+                server.sendPosition(self.worm.position)
+                lastupdate = timeSinceLastUpdate
+            }
         }
 
         pointsLabel.pointLabel.text = "\(pointsLabel.points)"
@@ -329,7 +335,8 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
         block.zPosition = ObjectsZPositions.hud
         block.position = CGPointMake(self.frame.maxX * 2/9, self.frame.maxY * 1/64)
         
-        timerLabel = SKLabelNode(text: "UTC: \(timestamp)")
+        lastupdate = timestamp
+        timerLabel = SKLabelNode(text: "UTC: \(lastupdate)")
         timerLabel.fontName = "Arial-Bold"
         timerLabel.fontSize = 10
         timerLabel.position = CGPointMake(0.0, 0.0)
