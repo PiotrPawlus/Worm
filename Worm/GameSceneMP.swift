@@ -63,11 +63,9 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     let Pi = CGFloat(M_PI)
     let DegreesToRadians = CGFloat(M_PI) / 180
     let RadiansToDegrees = 180 / CGFloat(M_PI)
-    
-    // Client Socket
-    var client: TCPClient!
-    let address = "Piotrs-MacBook-Pro.local"
-    let port = 50000
+
+    // Server 
+    let server = ServerConnection()
     
     // MARK: - Presenting a Scene
     override func didMoveToView(view: SKView) {
@@ -155,7 +153,7 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
         
         self.updateTimer()
         if motionMenagerActive {
-            self.sendData()
+            server.sendPosition(self.worm.position)
         }
 
         pointsLabel.pointLabel.text = "\(pointsLabel.points)"
@@ -344,21 +342,5 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     
     func updateTimer() {
         timerLabel.text = "\(timestamp)"
-    }
-    
-    func sendData() {
-        self.client = TCPClient(addr: self.address, port:  self.port)
-        var (success, errmsg) = self.client.connect(timeout: 1)
-        if success {
-            let (success, errmsg) = self.client.send(str: "\(self.worm.position)")
-            if success {
-                print("Sukces")
-            } else {
-                print(errmsg)
-            }
-        } else {
-            print(errmsg)
-        }
-        (success, errmsg) = self.client.close()
     }
 }
