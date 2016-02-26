@@ -57,6 +57,8 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     private var maxWormSpeed: CGFloat = 20.0
     private var lastUpdateTime: CFTimeInterval = 0
     
+    private var motionMenagerActive: Bool = false
+    
     // Math
     let Pi = CGFloat(M_PI)
     let DegreesToRadians = CGFloat(M_PI) / 180
@@ -64,7 +66,8 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     
     // Client Socket
     var client: TCPClient!
-    
+    let address = "Piotrs-MacBook-Pro.local"
+    let port = 50000
     
     // MARK: - Presenting a Scene
     override func didMoveToView(view: SKView) {
@@ -89,21 +92,6 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
         PauseMenu.gamePaused = false
         EndGameNode.endGame = false
         
-        // Client
-        client = TCPClient(addr: "Piotrs-MacBook-Pro.local", port:  50000)
-        var (success, errmsg) = client.connect(timeout: 1)
-        if success {
-            let (success, errmsg) = client.send(str: "Cześć\n")
-            if success {
-                print("Sukces")
-            } else {
-                print(errmsg)
-            }
-        } else {
-            print(errmsg)
-        }
-        (success, errmsg) = client.close()
-        
     }
     
     // MARK: - Deinitializer
@@ -115,12 +103,14 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     func startMonitoringAcceleratrion() {
         if motionManager.accelerometerAvailable {
             motionManager.startAccelerometerUpdates()
+            self.motionMenagerActive = true
         }
     }
     
     func stopMoitoringAcceleration() {
         if motionManager.accelerometerAvailable && motionManager.accelerometerActive {
             motionManager.stopAccelerometerUpdates()
+            self.motionMenagerActive = false
         }
     }
     
@@ -163,9 +153,11 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     // MARK: - Executing the Animation Loop
     override func update(currentTime: CFTimeInterval) {
         
-        timerLabel.text = "\(timestamp)"
-        
-        
+        self.updateTimer()
+        if motionMenagerActive {
+            self.sendData()
+        }
+
         pointsLabel.pointLabel.text = "\(pointsLabel.points)"
         
         let deltaTime = max(1.0/30, currentTime - lastUpdateTime)
@@ -259,7 +251,7 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     // MARK: - GameScene Physic Bodies
     func createWorm() {
         worm = SKSpriteNode(imageNamed: "robak")
-        worm.position = CGPointMake(self.frame.midX, self.frame.midY)
+        worm.position = CGPointMake(self.frame.midX, self.frame.midY / 2)
         worm.zPosition = ObjectsZPositions.middleground
         worm.setScale(0.5) // to delete, replace with new worm sprite
         
@@ -348,5 +340,25 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
         
         self.addChild(block)
         block.addChild(timerLabel)
+    }
+    
+    func updateTimer() {
+        timerLabel.text = "\(timestamp)"
+    }
+    
+    func sendData() {
+        client = TCPClient(addr: self.address, port:  self.port)
+        var (success, errmsg) = client.connect(timeout: 1)
+        if success {
+            let (success, errmsg) = client.send(str: "\(worm.position)")
+            if success {
+                print("Sukces")
+            } else {
+                print(errmsg)
+            }
+        } else {
+            print(errmsg)
+        }
+        (success, errmsg) = client.close()
     }
 }
