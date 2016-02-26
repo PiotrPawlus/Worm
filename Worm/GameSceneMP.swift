@@ -21,7 +21,7 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     private var timerLabel: SKLabelNode!
     var timestamp: NSTimeInterval {
         get {
-            return NSDate().timeIntervalSince1970 * 1000 / 33
+            return NSDate().timeIntervalSince1970 * 1000
         }
     }
     
