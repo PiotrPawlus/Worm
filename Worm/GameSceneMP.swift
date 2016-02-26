@@ -347,10 +347,10 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     }
     
     func sendData() {
-        client = TCPClient(addr: self.address, port:  self.port)
-        var (success, errmsg) = client.connect(timeout: 1)
+        self.client = TCPClient(addr: self.address, port:  self.port)
+        var (success, errmsg) = self.client.connect(timeout: 1)
         if success {
-            let (success, errmsg) = client.send(str: "\(worm.position)")
+            let (success, errmsg) = self.client.send(str: "\(self.worm.position)")
             if success {
                 print("Sukces")
             } else {
@@ -359,6 +359,6 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
         } else {
             print(errmsg)
         }
-        (success, errmsg) = client.close()
+        (success, errmsg) = self.client.close()
     }
 }
