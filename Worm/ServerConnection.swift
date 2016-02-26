@@ -10,10 +10,10 @@ import UIKit
 
 class ServerConnection {
     let client: TCPClient = TCPClient(addr: "Piotrs-MacBook-Pro.local", port: 50000)
-    
+    let frames = 33
     
     func sendPosition(position: CGPoint) {
-        var (success, errmsg) = self.client.connect(timeout: 1)
+        var (success, errmsg) = self.client.connect(timeout: 5)
         if success {
             let (success, errmsg) = self.client.send(str: "\(position)")
             if success {
