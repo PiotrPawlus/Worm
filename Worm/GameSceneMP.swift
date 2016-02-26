@@ -66,10 +66,13 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     let RadiansToDegrees = 180 / CGFloat(M_PI)
 
     // Server 
-    let server = ServerConnection()
+    var server: ServerConnection!
     
     // MARK: - Presenting a Scene
     override func didMoveToView(view: SKView) {
+        
+        server = ServerConnection()
+        
         physicsWorld.contactDelegate = self
         self.addTimer()
         self.background()
