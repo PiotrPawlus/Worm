@@ -27,6 +27,7 @@
 		C1912AE91C773DED00CEC03A /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1912AE81C773DED00CEC03A /* Point.swift */; };
 		C1912AEB1C7741DB00CEC03A /* EndGameNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1912AEA1C7741DB00CEC03A /* EndGameNode.swift */; };
 		C1E611701C7F319200634527 /* GameSceneMP.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E6116F1C7F319200634527 /* GameSceneMP.swift */; };
+		C1E611721C805DC200634527 /* ServerConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E611711C805DC200634527 /* ServerConnection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 		C1912AE81C773DED00CEC03A /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		C1912AEA1C7741DB00CEC03A /* EndGameNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EndGameNode.swift; sourceTree = "<group>"; };
 		C1E6116F1C7F319200634527 /* GameSceneMP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSceneMP.swift; sourceTree = "<group>"; };
+		C1E611711C805DC200634527 /* ServerConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerConnection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +89,7 @@
 			children = (
 				C1177FBE1C74E4C20088114C /* AppDelegate.swift */,
 				C1912AD81C75A48F00CEC03A /* MenuScene.swift */,
+				C1E611711C805DC200634527 /* ServerConnection.swift */,
 				C1912AE01C75CBDD00CEC03A /* GameScene.swift */,
 				C1E6116F1C7F319200634527 /* GameSceneMP.swift */,
 				C1912AEA1C7741DB00CEC03A /* EndGameNode.swift */,
@@ -223,6 +226,7 @@
 				C15549441C7F1C65002D4AB8 /* yudpsocket.c in Sources */,
 				C1177FBF1C74E4C20088114C /* AppDelegate.swift in Sources */,
 				C15549431C7F1C65002D4AB8 /* ytcpsocket.swift in Sources */,
+				C1E611721C805DC200634527 /* ServerConnection.swift in Sources */,
 				C1912AE71C770CD300CEC03A /* CollisionCategoryBitmask.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
