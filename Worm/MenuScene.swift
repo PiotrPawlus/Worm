@@ -15,7 +15,7 @@ class MenuScene: SKScene {
     override func didMoveToView(view: SKView) {
         self.background()
         self.singlePlayerBtn()
-        self.multiPlayerBtn()
+        self.multiPlayerBtn(ServerConnection().checkConnection())
         self.ribbon()
     }
     
@@ -46,11 +46,11 @@ class MenuScene: SKScene {
         self.addChild(singlePlayerBtn)
     }
     
-    func multiPlayerBtn() {
+    func multiPlayerBtn(enabled: Bool) {
         let multiPlayerBtn = SKButton(defaultButtonImage: "MultiPlayer", activeButtonImage: "MultiPlayerShadow", disabledButtonImage: "MultiPlayerLocked", buttonAction: goToMultiPlayerScene)
         multiPlayerBtn.zPosition = ObjectsZPositions.hud
         multiPlayerBtn.setScale(self.buttonsScale)
-        multiPlayerBtn.enabled = true
+        multiPlayerBtn.enabled = enabled
         multiPlayerBtn.position = CGPointMake(self.frame.midX, self.frame.maxY * 4/9)
         self.addChild(multiPlayerBtn)
     }
