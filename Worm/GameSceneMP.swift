@@ -118,14 +118,17 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     
     // MARK: - Update Worm Sprite
     func updateWormAcceleration() {
-        if let acceleration = motionManager.accelerometerData?.acceleration {
-            let factor = 0.75
-            self.xAcceleration = acceleration.x * factor + self.xAcceleration * (1 - factor)
-            self.yAcceleration = acceleration.y * factor + self.yAcceleration * (1 - factor)
-            
-            wormAcceleration.dx = CGFloat(self.xAcceleration) * MaxWormAcceleration
-            wormAcceleration.dy = CGFloat(self.yAcceleration) * MaxWormAcceleration
+        let factor = 0.75
+        
+        guard let acceleration = motionManager.accelerometerData?.acceleration else {
+            return
         }
+        
+        self.xAcceleration = acceleration.x * factor + self.xAcceleration * (1 - factor)
+        self.yAcceleration = acceleration.y * factor + self.yAcceleration * (1 - factor)
+        
+        wormAcceleration.dx = CGFloat(self.xAcceleration) * MaxWormAcceleration
+        wormAcceleration.dy = CGFloat(self.yAcceleration) * MaxWormAcceleration
     }
     
     func updateWorm(dt: CFTimeInterval) {
