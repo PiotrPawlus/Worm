@@ -9,13 +9,22 @@
 import UIKit
 
 class ServerConnection {
-    let client: TCPClient = TCPClient(addr: "Piotrs-MacBook-Pro.local", port: 50000)
-    let frames = 33
+    let clientSocket: TCPClient
+    let Address = "Piotrs-MacBook-Pro.local"
+    let Port = 50000
+    let Frames = 33
+    var success: Bool
+    var errmsg: String
+    
+    init() {
+        self.clientSocket =  TCPClient(addr: self.Address, port: self.Port)
+        
+        (success, errmsg) = self.clientSocket.connect(timeout: 5)
+    }
     
     func sendPosition(position: CGPoint) {
-        var (success, errmsg) = self.client.connect(timeout: 5)
         if success {
-            let (success, errmsg) = self.client.send(str: "\(position)")
+            let (success, errmsg) = self.clientSocket.send(str: "\(position)")
             if success {
                 print("Sukces")
             } else {
@@ -24,25 +33,29 @@ class ServerConnection {
         } else {
             print(errmsg)
         }
-        (success, errmsg) = self.client.close()
+    }
+    
+    func closeConnection() {
+        if success {
+            self.clientSocket.close()
+        }
     }
     
     
     func checkConnection() -> Bool {
-        var sukces = false
-        var (success, errmsg) = self.client.connect(timeout: 1)
+        defer { (success, errmsg) = self.clientSocket.close() }
+        var connected  = false
         if success {
-            let (success, errmsg) = self.client.send(str: "Connected to server")
+            let (success, errmsg) = self.clientSocket.send(str: "Connected to server")
             if success {
                 print("Sukces")
-                sukces = true
+                connected = true
             } else {
                 print(errmsg)
             }
         } else {
             print(errmsg)
         }
-        (success, errmsg) = self.client.close()
-        return sukces
+        return connected
     }
 }
