@@ -74,11 +74,18 @@ class PauseMenu: SKSpriteNode {
     }
     
     func reloadScene() {
+        self.closeConnectionIfMPScene()
         self.delegate?.view!.presentScene(GameScene(size: (self.delegate?.size)!), transition: SKTransition.fadeWithDuration(0.5))
     }
     
     func goToMenu() {
+        self.closeConnectionIfMPScene()
         self.delegate?.view!.presentScene(MenuScene(size: (self.delegate?.size)!), transition: SKTransition.fadeWithDuration(0.5))
     }
     
+    func closeConnectionIfMPScene() {
+        if self.delegate is GameSceneMP {
+            (self.delegate as! GameSceneMP).server.closeConnection()
+        }
+    }
 }
