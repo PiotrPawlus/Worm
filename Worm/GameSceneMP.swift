@@ -152,7 +152,7 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     // MARK: - Executing the Animation Loop
     override func update(currentTime: CFTimeInterval) {
         
-        self.updateTimer()
+//        self.updateTimer()
         if motionMenagerActive {
             // NSTimeInterval - in seconds
             let timeSinceLastUpdate = timestamp - lastupdate
