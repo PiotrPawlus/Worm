@@ -26,7 +26,18 @@ class ServerConnection {
         if success {
             let (success, errmsg) = self.clientSocket.send(str: "\(position)")
             if success {
-                print("Sukces")
+                guard let data = clientSocket.read(1024*10) else {
+                    print("Server does not send massage")
+                    return
+                }
+                
+                guard let message = NSString(data: NSData(bytes: data, length: data.count), encoding: NSUTF8StringEncoding) as? String else {
+                    print("not a valid UTF-8 sequence")
+                    return
+                }
+                
+                print(message)
+                
             } else {
                 print(errmsg)
             }
