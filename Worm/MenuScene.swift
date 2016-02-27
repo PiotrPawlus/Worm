@@ -15,7 +15,8 @@ class MenuScene: SKScene {
     override func didMoveToView(view: SKView) {
         self.background()
         self.singlePlayerBtn()
-        self.multiPlayerBtn(ServerConnection().checkConnection())
+//        self.multiPlayerBtn(ServerConnection().checkConnection())
+        self.multiPlayerBtn(true)
         self.ribbon()
     }
     
