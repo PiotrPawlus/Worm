@@ -24,9 +24,13 @@ class ServerConnection {
     
     func sendPosition(position: CGPoint) {
         if success {
-            let (success, errmsg) = self.clientSocket.send(str: "\(position)")
+            
+            let uuid = UIDevice.currentDevice().identifierForVendor!.UUIDString
+           
+            let (success, errmsg) = self.clientSocket.send(str: "M:\(uuid):\(position.x):\(position.y)")
+//            let (success, errmsg) = self.clientSocket.send(data: <#T##[UInt8]#>)
             if success {
-                guard let data = clientSocket.read(1024*10) else {
+                guard let data = clientSocket.read(1024*100) else {
                     print("Server does not send massage")
                     return
                 }
