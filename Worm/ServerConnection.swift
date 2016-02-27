@@ -26,9 +26,10 @@ class ServerConnection {
         if success {
             
             let uuid = UIDevice.currentDevice().identifierForVendor!.UUIDString
-           
-            let (success, errmsg) = self.clientSocket.send(str: "M:\(uuid):\(position.x):\(position.y)")
-//            let (success, errmsg) = self.clientSocket.send(data: <#T##[UInt8]#>)
+            let string = "M:\(uuid):\(position.x):\(position.y)"
+            let data = string.dataUsingEncoding(NSUTF8StringEncoding)!
+            let (success, errmsg) = self.clientSocket.send(data: data)
+
             if success {
                 guard let data = clientSocket.read(1024*100) else {
                     print("Server does not send massage")
