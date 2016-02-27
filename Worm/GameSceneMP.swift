@@ -94,8 +94,13 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
         PauseMenu.gamePaused = false
         EndGameNode.endGame = false
         
+        _ = NSTimer.scheduledTimerWithTimeInterval(1.0 / 33.0, target: self, selector: "update_timer", userInfo: nil, repeats: true)
+        
     }
     
+    func update_timer() {
+        server.sendPosition(self.worm.position)
+    }
     // MARK: - Deinitializer
     deinit {
         self.stopMoitoringAcceleration()
@@ -158,15 +163,15 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     // MARK: - Executing the Animation Loop
     override func update(currentTime: CFTimeInterval) {
         
-//        self.updateTimer()
-        if motionMenagerActive {
-            // NSTimeInterval - in seconds
-            let timeSinceLastUpdate = timestamp - lastupdate
-            if timeSinceLastUpdate >= 1000 / 33 {
-                server.sendPosition(self.worm.position)
-                lastupdate = timeSinceLastUpdate
-            }
-        }
+////        self.updateTimer()
+//        if motionMenagerActive {
+//            // NSTimeInterval - in seconds
+//            let timeSinceLastUpdate = timestamp - lastupdate
+//            if timeSinceLastUpdate >= 1000 / 33 {
+//                server.sendPosition(self.worm.position)
+//                lastupdate = timeSinceLastUpdate
+//            }
+//        }
 
         pointsLabel.pointLabel.text = "\(pointsLabel.points)"
         
