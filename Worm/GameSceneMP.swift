@@ -98,16 +98,17 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     }
     
     func update_timer() {
-//        guard let str = server.sendPosition(self.worm.position) else {
-//            return
-//        }
-////        let spliteStr = str.componentsSeparatedByString(":")
-//        
-////        consoleLabel.text = "x: \(spliteStr[0]), y: \(spliteStr[1])"
-//        consoleLabel.text = "\(str)"
-        if let str = server.sendPosition(self.worm.position) {
-            print(str)
+        guard let str = server.sendPosition(self.worm.position) else {
+            return
         }
+        print(str)
+//        let spliteStr = str.componentsSeparatedByString(":")
+        
+//        consoleLabel.text = "x: \(spliteStr[0]), y: \(spliteStr[1])"
+        consoleLabel.text = "\(str)"
+//        if let str = server.sendPosition(self.worm.position) {
+//            print(str)
+//        }
     }
     // MARK: - Deinitializer
     deinit {
