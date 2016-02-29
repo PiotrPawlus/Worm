@@ -101,14 +101,12 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
         guard let str = server.sendPosition(self.worm.position) else {
             return
         }
-        print(str)
-//        let spliteStr = str.componentsSeparatedByString(":")
+//        y:458.893493652344:x:76.9132766723633 - do podziału
+//       y - 0, posY - 1, x - 2, posX - 3
         
-//        consoleLabel.text = "x: \(spliteStr[0]), y: \(spliteStr[1])"
+        let spliteStr = str.componentsSeparatedByString(":")
         consoleLabel.text = "\(str)"
-//        if let str = server.sendPosition(self.worm.position) {
-//            print(str)
-//        }
+
     }
     // MARK: - Deinitializer
     deinit {
