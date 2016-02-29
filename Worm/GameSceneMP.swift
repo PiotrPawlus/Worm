@@ -109,6 +109,19 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
         
         let spliteStr = str.componentsSeparatedByString(":")
         consoleLabel.text = "\(str)"
+        
+        
+        guard let x = NSNumberFormatter().numberFromString(spliteStr[3]) else {
+            return
+        }
+        
+        guard let y = NSNumberFormatter().numberFromString(spliteStr[1]) else {
+            return
+        }
+        
+        otherWorm.position = CGPoint(x: CGFloat(x), y: CGFloat(y))
+        
+//        otherWorm.position = CGPoint(x: spliteStr[3], y: spliteStr[1])
         
     }
     // MARK: - Deinitializer
