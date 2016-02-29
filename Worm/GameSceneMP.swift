@@ -18,7 +18,7 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     private var hudBar: SKSpriteNode!
     
     // TIMER
-    private var timerLabel: SKLabelNode!
+    private var consoleLabel: SKLabelNode!
     var timestamp: NSTimeInterval { // in miliseconds
         get {
             return NSDate().timeIntervalSince1970 * 1000
@@ -74,7 +74,7 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
         server = ServerConnection()
         
         physicsWorld.contactDelegate = self
-        self.addTimer()
+        self.addConsole()
         self.background()
         self.setPlayButton()
         self.setHud()
@@ -331,5 +331,11 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     }
     
     // MARK: - Server Info
-
+    func addConsole() {
+        let size = CGSize(width: self.frame.width / 2.0, height: self.frame.height * 3/16)
+        let block = SKSpriteNode(color: UIColor.blackColor(), size: size)
+        block.zPosition = ObjectsZPositions.hud
+        block.position = CGPointMake(self.frame.maxX * 2/9, self.frame.maxY * 1/64)
+        self.addChild(block)
+    }
 }
