@@ -17,6 +17,8 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     private var pointsLabel: PointsCounterNode!
     private var hudBar: SKSpriteNode!
     
+    private var otherWorm: SKSpriteNode!
+    
     // TIMER
     private var consoleLabel: SKLabelNode!
     private var block: SKSpriteNode!
@@ -84,6 +86,7 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
         
         // Physics Bodies
         self.createWorm()
+        self.createOtherWorm()
         self.createPoint()
         self.createWalls()
         
@@ -106,7 +109,7 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
         
         let spliteStr = str.componentsSeparatedByString(":")
         consoleLabel.text = "\(str)"
-
+        
     }
     // MARK: - Deinitializer
     deinit {
@@ -258,6 +261,14 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
             endGame.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
             self.addChild(endGame)
         }
+    }
+    
+    func createOtherWorm() {
+        otherWorm = SKSpriteNode(imageNamed: "Worm")
+        otherWorm.position = CGPointMake(self.frame.midX, self.frame.midY / 2)
+        otherWorm.zPosition = ObjectsZPositions.middleground
+        otherWorm.setScale(0.25) // to delete, replace with new worm sprite
+        self.addChild(otherWorm)
     }
     
     // MARK: - GameScene Physic Bodies
