@@ -19,11 +19,6 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     
     // TIMER
     private var consoleLabel: SKLabelNode!
-    var timestamp: NSTimeInterval { // in miliseconds
-        get {
-            return NSDate().timeIntervalSince1970 * 1000
-        }
-    }
     var lastupdate: NSTimeInterval!
     
     // Physics Bodies
