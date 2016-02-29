@@ -163,16 +163,6 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     // MARK: - Executing the Animation Loop
     override func update(currentTime: CFTimeInterval) {
         
-////        self.updateTimer()
-//        if motionMenagerActive {
-//            // NSTimeInterval - in seconds
-//            let timeSinceLastUpdate = timestamp - lastupdate
-//            if timeSinceLastUpdate >= 1000 / 33 {
-//                server.sendPosition(self.worm.position)
-//                lastupdate = timeSinceLastUpdate
-//            }
-//        }
-
         pointsLabel.pointLabel.text = "\(pointsLabel.points)"
         
         let deltaTime = max(1.0/30, currentTime - lastUpdateTime)
