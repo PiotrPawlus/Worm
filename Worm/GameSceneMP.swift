@@ -331,24 +331,5 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     }
     
     // MARK: - Server Info
-    func addTimer() {
-        let block = SKSpriteNode(imageNamed: "block")
-        block.zPosition = ObjectsZPositions.hud
-        block.position = CGPointMake(self.frame.maxX * 2/9, self.frame.maxY * 1/64)
-        
-        lastupdate = timestamp
-        timerLabel = SKLabelNode(text: "UTC: \(lastupdate)")
-        timerLabel.fontName = "Arial-Bold"
-        timerLabel.fontSize = 10
-        timerLabel.position = CGPointMake(0.0, 0.0)
-        timerLabel.zPosition = ObjectsZPositions.hudObjects
-        
-        
-        self.addChild(block)
-        block.addChild(timerLabel)
-    }
-    
-    func updateTimer() {
-        timerLabel.text = "\(timestamp)"
-    }
+
 }
