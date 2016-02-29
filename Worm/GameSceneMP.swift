@@ -19,6 +19,7 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     
     // TIMER
     private var consoleLabel: SKLabelNode!
+    private var block: SKSpriteNode!
     var lastupdate: NSTimeInterval!
     
     // Physics Bodies
@@ -69,7 +70,10 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
         server = ServerConnection()
         
         physicsWorld.contactDelegate = self
+        
         self.addConsole()
+        self.addConsoleLabel()
+        
         self.background()
         self.setPlayButton()
         self.setHud()
@@ -327,10 +331,17 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     
     // MARK: - Server Info
     func addConsole() {
-        let size = CGSize(width: self.frame.width / 2.0, height: self.frame.height * 3/16)
-        let block = SKSpriteNode(color: UIColor.blackColor(), size: size)
+        let size = CGSize(width: self.frame.width * 2/3, height: self.frame.height * 1/8)
+        block = SKSpriteNode(color: UIColor.blackColor(), size: size)
         block.zPosition = ObjectsZPositions.hud
-        block.position = CGPointMake(self.frame.maxX * 2/9, self.frame.maxY * 1/64)
+        block.position = CGPointMake(self.frame.maxX * 3/9, self.frame.maxY * 1/64)
         self.addChild(block)
+    }
+    
+    func addConsoleLabel() {
+        consoleLabel = SKLabelNode(fontNamed: "Arial")
+        consoleLabel.zPosition = ObjectsZPositions.hudObjects
+        block.addChild(consoleLabel)
+        consoleLabel.position = CGPoint(x: 0, y: 0)
     }
 }
