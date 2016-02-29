@@ -334,10 +334,10 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     
     // MARK: - Server Info
     func addConsole() {
-        let size = CGSize(width: self.frame.width * 2/3, height: self.frame.height * 1/8)
+        let size = CGSize(width: self.frame.width, height: self.frame.height * 1/32)
         block = SKSpriteNode(color: UIColor.blackColor(), size: size)
         block.zPosition = ObjectsZPositions.hud
-        block.position = CGPointMake(self.frame.maxX * 3/9, self.frame.maxY * 1/64)
+        block.position = CGPointMake(self.frame.midX, self.frame.maxY - 90.0)
         self.addChild(block)
     }
     
@@ -345,7 +345,7 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
         consoleLabel = SKLabelNode(fontNamed: "Arial")
         consoleLabel.zPosition = ObjectsZPositions.hudObjects
         block.addChild(consoleLabel)
-        consoleLabel.position = CGPoint(x: 0, y: 0)
-        consoleLabel.fontSize = 12
+        consoleLabel.position = CGPoint(x: 0, y: -block.frame.height * 1/2)
+        consoleLabel.fontSize = 10
     }
 }
