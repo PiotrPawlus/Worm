@@ -109,8 +109,7 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
         
         let spliteStr = str.componentsSeparatedByString(":")
         consoleLabel.text = "\(str)"
-        
-        
+                
         guard let x = NSNumberFormatter().numberFromString(spliteStr[3]) else {
             return
         }
