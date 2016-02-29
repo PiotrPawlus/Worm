@@ -22,7 +22,8 @@ class ServerConnection {
         (success, errmsg) = self.clientSocket.connect(timeout: 5)
     }
     
-    func sendPosition(position: CGPoint) {
+    func sendPosition(position: CGPoint) -> String? {
+        var message = String()
         if success {
             
             let uuid = UIDevice.currentDevice().identifierForVendor!.UUIDString
@@ -33,15 +34,15 @@ class ServerConnection {
             if success {
                 guard let data = clientSocket.read(1024*100) else {
                     print("Server does not send massage")
-                    return
+                    return nil
                 }
                 
-                guard let message = NSString(data: NSData(bytes: data, length: data.count), encoding: NSUTF8StringEncoding) as? String else {
+                guard let mess = NSString(data: NSData(bytes: data, length: data.count), encoding: NSUTF8StringEncoding) as? String else {
                     print("not a valid UTF-8 sequence")
-                    return
+                    return nil
                 }
                 
-                print(message)
+                message = mess
                 
             } else {
                 print(errmsg)
@@ -49,6 +50,8 @@ class ServerConnection {
         } else {
             print(errmsg)
         }
+        
+        return message
     }
     
     func closeConnection() {
