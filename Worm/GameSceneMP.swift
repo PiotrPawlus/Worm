@@ -98,7 +98,10 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     }
     
     func update_timer() {
-        server.sendPosition(self.worm.position)
+        let str = server.sendPosition(self.worm.position)!
+        let spliteStr = str.componentsSeparatedByString(":")
+        
+        consoleLabel.text = "x: \(spliteStr[2]), y: \(spliteStr[3])"
     }
     // MARK: - Deinitializer
     deinit {
@@ -343,5 +346,6 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
         consoleLabel.zPosition = ObjectsZPositions.hudObjects
         block.addChild(consoleLabel)
         consoleLabel.position = CGPoint(x: 0, y: 0)
+        consoleLabel.fontSize = 12
     }
 }
