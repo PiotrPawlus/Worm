@@ -66,11 +66,25 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     // Server 
     var server: ServerConnection!
     
+    // MARK: - Initialiser
+    override init(size: CGSize) {
+        super.init(size: size)
+        
+        server = ServerConnection()
+        
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        server.closeConnection()
+    }
     
     // MARK: - Presenting a Scene
     override func didMoveToView(view: SKView) {
         
-        server = ServerConnection()
         
         physicsWorld.contactDelegate = self
         
@@ -111,30 +125,29 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
             return
         }
         
-        print("end game: \(EndGameNode.endGame)")
-        print("pause game: \(PauseMenu.gamePaused)")
-
         guard let str = server.sendPosition(self.worm.position) else {
             return
         }
+        consoleLabel.text = "\(str)"
 
         
         let spliteStr = str.componentsSeparatedByString(":")
-        consoleLabel.text = "\(str)"
-
-        guard let x = NSNumberFormatter().numberFromString(spliteStr[1]) else {
-            return
-        }
         
-        guard let y = NSNumberFormatter().numberFromString(spliteStr[3]) else {
-            return
+        if spliteStr.count > 2 {
+            print("Ilość elementów w tablicy: \(spliteStr.count)")
+            print("zawartość tablicy: \(spliteStr)")
+            
+            
+            guard let x = NSNumberFormatter().numberFromString(spliteStr[1]) else {
+                return
+            }
+            
+            guard let y = NSNumberFormatter().numberFromString(spliteStr[3]) else {
+                return
+            }
+            
+            otherWorm.position = CGPoint(x: CGFloat(x), y: CGFloat(y))
         }
-        
-        otherWorm.position = CGPoint(x: CGFloat(x), y: CGFloat(y))
-    }
-    // MARK: - Deinitializer
-    deinit {
-        self.stopMoitoringAcceleration()
     }
     
     // MARK: - Handling Core Motion
