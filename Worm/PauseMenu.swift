@@ -63,7 +63,6 @@ class PauseMenu: SKSpriteNode {
     // MARK: - Buttons actions
     func playButton() {
         self.removeFromParent()
-        
         if self.delegate is GameScene {
             (self.delegate as! GameScene).unpauseWorm = true
         } else if self.delegate is GameSceneMP {
@@ -73,19 +72,26 @@ class PauseMenu: SKSpriteNode {
     }
     
     func reloadScene() {
-        self.closeConnectionIfMPScene()
+        self.delegate.removeAllChildren()
+        self.delegate.removeAllActions()
+        self.delegate.removeFromParent()
+        self.removeFromParent()
         self.delegate?.view!.presentScene(GameScene(size: (self.delegate?.size)!), transition: SKTransition.fadeWithDuration(0.5))
     }
     
     func goToMenu() {
-        self.closeConnectionIfMPScene()
         PauseMenu.gamePaused = true
+        
+        if self.delegate is GameSceneMP {
+            let delegate = (self.delegate as! GameSceneMP)
+            delegate.server.closeConnection()
+        }
+        self.delegate.removeAllActions()
+        self.delegate.removeAllChildren()
+        self.delegate.removeFromParent()
+        self.removeFromParent()
+        
         self.delegate?.view!.presentScene(MenuScene(size: (self.delegate?.size)!), transition: SKTransition.fadeWithDuration(0.5))
     }
     
-    func closeConnectionIfMPScene() {
-        if self.delegate is GameSceneMP {
-            (self.delegate as! GameSceneMP).server.closeConnection()
-        }
-    }
 }
