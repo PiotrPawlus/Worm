@@ -66,6 +66,7 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     // Server 
     var server: ServerConnection!
     
+    
     // MARK: - Presenting a Scene
     override func didMoveToView(view: SKView) {
         
@@ -101,27 +102,35 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     }
     
     func update_timer() {
+        if (PauseMenu.gamePaused) {
+            return
+        }
+        
+        if (EndGameNode.endGame) {
+            server.closeConnection()
+            return
+        }
+        
+        print("end game: \(EndGameNode.endGame)")
+        print("pause game: \(PauseMenu.gamePaused)")
+
         guard let str = server.sendPosition(self.worm.position) else {
             return
         }
-//        y:458.893493652344:x:76.9132766723633 - do podziału
-//       y - 0, posY - 1, x - 2, posX - 3
+
         
         let spliteStr = str.componentsSeparatedByString(":")
         consoleLabel.text = "\(str)"
-                
-        guard let x = NSNumberFormatter().numberFromString(spliteStr[3]) else {
+
+        guard let x = NSNumberFormatter().numberFromString(spliteStr[1]) else {
             return
         }
         
-        guard let y = NSNumberFormatter().numberFromString(spliteStr[1]) else {
+        guard let y = NSNumberFormatter().numberFromString(spliteStr[3]) else {
             return
         }
         
         otherWorm.position = CGPoint(x: CGFloat(x), y: CGFloat(y))
-        
-//        otherWorm.position = CGPoint(x: spliteStr[3], y: spliteStr[1])
-        
     }
     // MARK: - Deinitializer
     deinit {
