@@ -209,7 +209,6 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     // MARK: - Executing the Animation Loop
     override func update(currentTime: CFTimeInterval) {
         
-        print(self.worm.zRotation)
         pointsLabel.pointLabel.text = "\(pointsLabel.points)"
         
         let deltaTime = max(1.0/30, currentTime - lastUpdateTime)
@@ -301,7 +300,7 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     }
     
     func createOtherWorm() {
-        otherWorm = SKSpriteNode(imageNamed: "Worm")
+        otherWorm = SKSpriteNode(imageNamed: "otherWorm")
         otherWorm.position = CGPointMake(self.frame.midX, self.frame.midY / 2)
         otherWorm.zPosition = ObjectsZPositions.middleground
         otherWorm.setScale(0.25) // to delete, replace with new worm sprite
