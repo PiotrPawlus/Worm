@@ -125,7 +125,7 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
             return
         }
         
-        guard let str = server.sendPosition(self.worm.position) else {
+        guard let str = server.sendPosition(self.worm.position, rotation: self.worm.zRotation) else {
             return
         }
         consoleLabel.text = "\(str)"
@@ -133,10 +133,7 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
         
         let spliteStr = str.componentsSeparatedByString(":")
         
-        if spliteStr.count > 2 {
-            print("Ilość elementów w tablicy: \(spliteStr.count)")
-            print("zawartość tablicy: \(spliteStr)")
-            
+        if spliteStr.count >= 2 {
             
             guard let x = NSNumberFormatter().numberFromString(spliteStr[1]) else {
                 return
@@ -146,7 +143,12 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
                 return
             }
             
+            guard let r = NSNumberFormatter().numberFromString(spliteStr[5]) else {
+                return
+            }
+            
             otherWorm.position = CGPoint(x: CGFloat(x), y: CGFloat(y))
+            otherWorm.zRotation = CGFloat(r)
         }
     }
     
@@ -207,6 +209,7 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     // MARK: - Executing the Animation Loop
     override func update(currentTime: CFTimeInterval) {
         
+        print(self.worm.zRotation)
         pointsLabel.pointLabel.text = "\(pointsLabel.points)"
         
         let deltaTime = max(1.0/30, currentTime - lastUpdateTime)

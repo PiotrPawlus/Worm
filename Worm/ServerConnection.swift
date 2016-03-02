@@ -22,12 +22,12 @@ class ServerConnection {
         (success, errmsg) = self.clientSocket.connect(timeout: 5)
     }
     
-    func sendPosition(position: CGPoint) -> String? {
+    func sendPosition(position: CGPoint, rotation: CGFloat) -> String? {
         var message = String()
         if success {
             
             let uuid = UIDevice.currentDevice().identifierForVendor!.UUIDString
-            let string = "M:\(uuid):\(position.x):\(position.y)"
+            let string = "M:\(uuid):\(position.x):\(position.y):\(rotation)"
             let data = string.dataUsingEncoding(NSUTF8StringEncoding)!
             let (success, errmsg) = self.clientSocket.send(data: data)
 
