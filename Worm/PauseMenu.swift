@@ -56,7 +56,6 @@ class PauseMenu: SKSpriteNode {
     func setMenuButton() {
         let menuBtn = SKButton(defaultButtonImage: "MenuButton", activeButtonImage: "MenuButtonShadow", buttonAction: goToMenu)
         menuBtn.zPosition = ObjectsZPositions.hudObjects
-        
         menuBtn.position = CGPointMake(0 + (self.pauseMenuSize.width * 2/7), 0 - (self.pauseMenuSize.height * 1/7))
         self.addChild(menuBtn)
     }
@@ -80,6 +79,7 @@ class PauseMenu: SKSpriteNode {
     
     func goToMenu() {
         self.closeConnectionIfMPScene()
+        PauseMenu.gamePaused = true
         self.delegate?.view!.presentScene(MenuScene(size: (self.delegate?.size)!), transition: SKTransition.fadeWithDuration(0.5))
     }
     
