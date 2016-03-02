@@ -55,6 +55,7 @@ class EndGameNode: SKSpriteNode {
             self.delegate?.removeAllActions()
             self.delegate?.removeAllChildren()
             self.delegate?.removeFromParent()
+            EndGameNode.endGame = true
         }
         playAgainBtn.zPosition = ObjectsZPositions.hudObjects
         playAgainBtn.position =  CGPointMake((self.endGameSize.width * 1/7), -(self.endGameSize.height * 3/7))

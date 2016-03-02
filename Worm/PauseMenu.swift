@@ -72,6 +72,7 @@ class PauseMenu: SKSpriteNode {
     }
     
     func reloadScene() {
+        PauseMenu.gamePaused = false
         self.delegate.removeAllChildren()
         self.delegate.removeAllActions()
         self.delegate.removeFromParent()
@@ -80,7 +81,8 @@ class PauseMenu: SKSpriteNode {
     }
     
     func goToMenu() {
-        PauseMenu.gamePaused = true
+        PauseMenu.gamePaused = false
+        EndGameNode.endGame = true
         
         if self.delegate is GameSceneMP {
             let delegate = (self.delegate as! GameSceneMP)
