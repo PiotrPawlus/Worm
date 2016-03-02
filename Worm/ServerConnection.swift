@@ -55,8 +55,11 @@ class ServerConnection {
     }
     
     func closeConnection() {
+        let (success, errmsg) = clientSocket.close()
         if success {
-            self.clientSocket.close()
+            print("Połączenie zamknięte")
+        } else {
+            print(errmsg)
         }
     }
     
