@@ -63,7 +63,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.setPlayButton()
         self.setHud()
         self.setPauseButton()
-        pointsLabel = PointsCounterNode(imageNamed: "Points", frameSize: self.frame.size, delegate: self)
+        pointsLabel = PointsCounterNode(imageNamed: "PointsApple", frameSize: self.frame.size, delegate: self)
         pointsLabel.position = CGPointMake(self.frame.maxX * 15/16 - pointsLabel.size.width / 2, self.frame.maxY * 15/16)
         self.addChild(pointsLabel)
         
