@@ -39,7 +39,6 @@ class EndGameNode: SKSpriteNode {
 
             self.delegate?.removeAllActions()
             self.delegate?.removeAllChildren()
-            self.delegate?.removeFromParent()
             
             EndGameNode.endGame = true
         }
@@ -54,7 +53,6 @@ class EndGameNode: SKSpriteNode {
             
             self.delegate?.removeAllActions()
             self.delegate?.removeAllChildren()
-            self.delegate?.removeFromParent()
             EndGameNode.endGame = true
         }
         playAgainBtn.zPosition = ObjectsZPositions.hudObjects

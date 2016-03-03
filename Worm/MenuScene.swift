@@ -64,11 +64,13 @@ class MenuScene: SKScene {
     // MARK: - Present a Scene
     func goToSinglePlayerScene() {
         self.view!.presentScene(GameScene(size: self.size), transition: SKTransition.fadeWithDuration(0.5))
-        self.removeFromParent()
+        self.removeAllChildren()
+        self.removeAllActions()
     }
     
     func goToMultiPlayerScene() {
         self.view!.presentScene(GameSceneMP(size: self.size), transition: SKTransition.fadeWithDuration(0.5))
-        self.removeFromParent()
+        self.removeAllActions()
+        self.removeAllChildren()
     }
 }

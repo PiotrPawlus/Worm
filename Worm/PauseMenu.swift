@@ -74,7 +74,6 @@ class PauseMenu: SKSpriteNode {
     func reloadScene() {
         PauseMenu.gamePaused = false
         self.delegate.removeAllChildren()
-        self.delegate.removeAllActions()
         self.delegate.removeFromParent()
         self.removeFromParent()
         self.delegate?.view!.presentScene(GameScene(size: (self.delegate?.size)!), transition: SKTransition.fadeWithDuration(0.5))
@@ -90,7 +89,6 @@ class PauseMenu: SKSpriteNode {
         }
         self.delegate.removeAllActions()
         self.delegate.removeAllChildren()
-        self.delegate.removeFromParent()
         self.removeFromParent()
         
         self.delegate?.view!.presentScene(MenuScene(size: (self.delegate?.size)!), transition: SKTransition.fadeWithDuration(0.5))
