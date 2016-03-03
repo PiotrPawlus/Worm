@@ -10,7 +10,7 @@ import SpriteKit
 
 class Point: SKSpriteNode {
     private weak var delegate: SKScene!
-    
+    private let scale: CGFloat = 0.5
     // MARK: - initializers
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -25,10 +25,11 @@ class Point: SKSpriteNode {
         self.delegate = delegate
         let pointSzie = texture.size()
         super.init(texture: texture, color: UIColor.clearColor(), size: pointSzie)
-        self.setScale(0.5)
+        self.setScale(scale)
         
         self.zPosition = ObjectsZPositions.middleground
-        self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size)
+//        self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size)
+        self.physicsBody = SKPhysicsBody(circleOfRadius: self.size.width * scale, center: CGPoint(x: 0.0, y: -self.frame.maxY * 1/4))
         self.physicsBody?.dynamic = false
         self.physicsBody?.categoryBitMask = CollisionCategoryBitmask.Point
         self.physicsBody?.contactTestBitMask = CollisionCategoryBitmask.Nil
