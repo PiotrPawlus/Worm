@@ -237,7 +237,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         worm.zPosition = ObjectsZPositions.middleground
         worm.setScale(0.5) // to delete, replace with new worm sprite
         
-        worm.physicsBody = SKPhysicsBody(rectangleOfSize: worm.size)
+        let heightScale: CGFloat = 0.95
+        let widthScale: CGFloat = 0.8
+        let wormSize = CGSize(width: worm.size.width * widthScale, height: worm.size.height * heightScale)
+        worm.physicsBody = SKPhysicsBody(rectangleOfSize: wormSize)
         worm.physicsBody?.dynamic = false // at start
         worm.physicsBody?.allowsRotation = true
         worm.physicsBody?.affectedByGravity = false
