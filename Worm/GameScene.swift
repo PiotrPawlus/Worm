@@ -250,7 +250,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func createPoint() {
-        star = Point(imageNamed: "Star", delegate: self)
+        star = Point(imageNamed: "apple", delegate: self)
         
         let maxY = self.frame.maxY - self.hudBar.size.height
         star.position = CGPointMake( CGFloat(arc4random() % UInt32(self.frame.maxX * 7/9)) + self.frame.maxX * 1/9 ,
