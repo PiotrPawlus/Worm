@@ -29,8 +29,6 @@ class PauseMenu: SKSpriteNode {
         super.init(texture: texture, color: UIColor.clearColor(), size: pauseMenuSize)
         self.position = CGPointMake(frameSize.width / 2, frameSize.height / 2)
         self.zPosition = ObjectsZPositions.hud
-        PauseMenu.gamePaused = true
-        
         self.setPlayButton()
         self.setReloadyButton()
         self.setMenuButton()
@@ -62,13 +60,13 @@ class PauseMenu: SKSpriteNode {
     
     // MARK: - Buttons actions
     func playButton() {
+        PauseMenu.gamePaused = false
         self.removeFromParent()
         if self.delegate is GameScene {
             (self.delegate as! GameScene).unpauseWorm = true
         } else if self.delegate is GameSceneMP {
             (self.delegate as! GameSceneMP).unpauseWorm = true
         }
-        PauseMenu.gamePaused = false
     }
     
     func reloadScene() {

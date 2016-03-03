@@ -40,7 +40,7 @@ class EndGameNode: SKSpriteNode {
             self.delegate?.removeAllActions()
             self.delegate?.removeAllChildren()
             
-            EndGameNode.endGame = true
+            EndGameNode.endGame = false
         }
         menuBtn.zPosition = ObjectsZPositions.hudObjects
         menuBtn.position = CGPointMake(-(self.endGameSize.width * 1/7), -(self.endGameSize.height * 3/7))
@@ -50,10 +50,9 @@ class EndGameNode: SKSpriteNode {
     func setPlayAgain() {
         let playAgainBtn = SKButton(defaultButtonImage: "Accept", activeButtonImage: "AcceptShadow") { () -> Void in
             self.delegate?.view!.presentScene(GameScene(size: (self.delegate?.size)!), transition: SKTransition.fadeWithDuration(0.5))
-            
             self.delegate?.removeAllActions()
             self.delegate?.removeAllChildren()
-            EndGameNode.endGame = true
+            EndGameNode.endGame = false
         }
         playAgainBtn.zPosition = ObjectsZPositions.hudObjects
         playAgainBtn.position =  CGPointMake((self.endGameSize.width * 1/7), -(self.endGameSize.height * 3/7))

@@ -55,6 +55,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let DegreesToRadians = CGFloat(M_PI) / 180
     let RadiansToDegrees = 180 / CGFloat(M_PI)
     
+    
+    // MARK: - Initialiser
+    override init(size: CGSize) {
+        super.init(size: size)
+        
+        PauseMenu.gamePaused = false        
+        EndGameNode.endGame = false
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Presenting a Scene
     override func didMoveToView(view: SKView) {
         
@@ -75,8 +88,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Accelerometer
         self.startMonitoringAcceleratrion()
         
-        PauseMenu.gamePaused = false
-        EndGameNode.endGame = false
+
         
     }
     
@@ -301,7 +313,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.wormVelocity = (worm.physicsBody?.velocity)!
             worm.physicsBody?.dynamic = false
             worm.physicsBody?.allowsRotation = false
-            PauseMenu.gamePaused = true
+//            PauseMenu.gamePaused = true
             if playButton != nil {
                 playButton.removeFromParent()
             }
