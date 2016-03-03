@@ -28,7 +28,6 @@ class Point: SKSpriteNode {
         self.setScale(scale)
         
         self.zPosition = ObjectsZPositions.middleground
-//        self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size)
         self.physicsBody = SKPhysicsBody(circleOfRadius: self.size.width * scale, center: CGPoint(x: 0.0, y: -self.frame.maxY * 1/4))
         self.physicsBody?.dynamic = false
         self.physicsBody?.categoryBitMask = CollisionCategoryBitmask.Point

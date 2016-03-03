@@ -235,7 +235,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         worm = SKSpriteNode(imageNamed: "robak")
         worm.position = CGPointMake(self.frame.midX, self.frame.midY)
         worm.zPosition = ObjectsZPositions.middleground
-        worm.setScale(0.5) // to delete, replace with new worm sprite
+        worm.setScale(0.5) 
         
         let heightScale: CGFloat = 0.95
         let widthScale: CGFloat = 0.8

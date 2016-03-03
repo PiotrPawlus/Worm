@@ -41,7 +41,6 @@ class MenuScene: SKScene {
         let singlePlayerBtn = SKButton(defaultButtonImage: "SinglePlayer", activeButtonImage: "SinglePlayerButtonShadow", buttonAction: goToSinglePlayerScene)
         singlePlayerBtn.zPosition = ObjectsZPositions.hud
         singlePlayerBtn.setScale(self.buttonsScale)
-//        singlePlayerBtn.position = CGPointMake(self.frame.midX, self.frame.maxY * 5/9)
         singlePlayerBtn.position = CGPointMake(self.frame.midX, self.frame.midY)
         self.addChild(singlePlayerBtn)
     }
