@@ -9,7 +9,7 @@
 import SpriteKit
 
 class MenuScene: SKScene {
-
+    
     private let buttonsScale: CGFloat = 0.8
     // MARK: - Presenting a Scene
     override func didMoveToView(view: SKView) {
@@ -22,7 +22,7 @@ class MenuScene: SKScene {
     // MARK: - Responding to Touch Events
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
     }
- 
+    
     // MARK: - Executing the Animation Loop
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
@@ -38,7 +38,7 @@ class MenuScene: SKScene {
     }
     
     func singlePlayerBtn() {
-        let singlePlayerBtn = SKButton(defaultButtonImage: "SinglePlayer", activeButtonImage: "SinglePlayerButtonShadow", buttonAction: goToSinglePlayerScene)
+        let singlePlayerBtn = SKButton(defaultButtonImage: "Easy", activeButtonImage: "EasyShadow", buttonAction: goToSinglePlayerScene)
         singlePlayerBtn.zPosition = ObjectsZPositions.hud
         singlePlayerBtn.setScale(self.buttonsScale)
         singlePlayerBtn.position = CGPointMake(self.frame.midX, self.frame.midY)
