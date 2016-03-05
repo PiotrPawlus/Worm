@@ -10,24 +10,53 @@ import UIKit
 
 class ServerConnection {
     let clientSocket: TCPClient
-    let Address = "Piotrs-MacBook-Pro.local"
+    let Address = "henryk.local"
     let Port = 50000
     let Frames = 33
     var success: Bool
     var errmsg: String
-    
+    var uuid: String
     init() {
         self.clientSocket =  TCPClient(addr: self.Address, port: self.Port)
         
         (success, errmsg) = self.clientSocket.connect(timeout: 5)
+        uuid = UIDevice.currentDevice().identifierForVendor!.UUIDString
+
     }
     
-    func sendPosition(position: CGPoint, rotation: CGFloat) -> String? {
+    func sendUUID(timestamp: NSTimeInterval, x: CGFloat, y: CGFloat, r: CGFloat) -> String? {
         var message = String()
         if success {
             
-            let uuid = UIDevice.currentDevice().identifierForVendor!.UUIDString
-            let string = "M:\(uuid):\(position.x):\(position.y):\(rotation)"
+            let string = "W:\(uuid):\(x):\(y):\(r):\(timestamp)"
+            let data = string.dataUsingEncoding(NSUTF8StringEncoding)!
+            let (success, errmsg) = self.clientSocket.send(data: data)
+            
+            if success {
+                guard let data = clientSocket.read(1024*100) else {
+                    print("Server does not send massage")
+                    return nil
+                }
+                
+                guard let mess = NSString(data: NSData(bytes: data, length: data.count), encoding: NSUTF8StringEncoding) as? String else {
+                    print("not a valid UTF-8 sequence")
+                    return nil
+                }
+                message = mess
+            } else {
+                print(errmsg)
+            }
+        } else {
+            print(errmsg)
+        }
+        return message
+    }
+    
+    func sendPosition(position: CGPoint, rotation: CGFloat, timestamp: NSTimeInterval) -> String? {
+        var message = String()
+        if success {
+            
+            let string = "M:\(uuid):\(position.x):\(position.y):\(rotation):\(timestamp)"
             let data = string.dataUsingEncoding(NSUTF8StringEncoding)!
             let (success, errmsg) = self.clientSocket.send(data: data)
 

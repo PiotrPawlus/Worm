@@ -15,6 +15,7 @@ class MenuScene: SKScene {
     override func didMoveToView(view: SKView) {
         self.background()
         self.singlePlayerBtn()
+        self.multiPlayerBtn(true)
         self.ribbon()
     }
     
@@ -41,7 +42,7 @@ class MenuScene: SKScene {
         let singlePlayerBtn = SKButton(defaultButtonImage: "Easy", activeButtonImage: "EasyShadow", buttonAction: goToSinglePlayerScene)
         singlePlayerBtn.zPosition = ObjectsZPositions.hud
         singlePlayerBtn.setScale(self.buttonsScale)
-        singlePlayerBtn.position = CGPointMake(self.frame.midX, self.frame.midY)
+        singlePlayerBtn.position = CGPointMake(self.frame.midX, self.frame.maxY * 6/9)
         self.addChild(singlePlayerBtn)
     }
     

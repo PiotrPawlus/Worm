@@ -24,6 +24,12 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     private var block: SKSpriteNode!
     var lastupdate: NSTimeInterval!
     
+    var timestamp: NSTimeInterval {
+       get {
+            return NSDate().timeIntervalSince1970
+       }
+    }
+    
     // Physics Bodies
     private var worm: SKSpriteNode!
     private var star: SKSpriteNode! // thing to collect
@@ -101,9 +107,10 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
         
         // Physics Bodies
         self.createWorm()
-        self.createOtherWorm()
         self.createPoint()
         self.createWalls()
+        
+        self.createOtherWorm()
         
         // Accelerometer
         self.startMonitoringAcceleratrion()
@@ -125,30 +132,80 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
             return
         }
         
-        guard let str = server.sendPosition(self.worm.position, rotation: self.worm.zRotation) else {
-            return
-        }
-        consoleLabel.text = "\(str)"
+        if !playButton.enabled {
+            guard let str = server.sendUUID(timestamp, x: self.worm.position.x, y: self.worm.position.y, r: self.worm.zRotation) else {
+                return
+            }
+            consoleLabel.text = "\(str)"
+            print(str)
+        
+            let spliteStr = str.componentsSeparatedByString(":")
+         
+            let w = spliteStr[0]
+        
+            if w == "W" {
+                guard let flag = NSNumberFormatter().numberFromString(spliteStr[1]) else {
+                    return
+                }
+                
+                if flag == 1 {
+                    playButton.enabled = true
+                    
+                    guard let x = NSNumberFormatter().numberFromString(spliteStr[2]) else {
+                        return
+                    }
+                    guard let y = NSNumberFormatter().numberFromString(spliteStr[3]) else {
+                        return
+                    }
+                    guard let r = NSNumberFormatter().numberFromString(spliteStr[4]) else {
+                        return
+                    }
+                     
+//                    self.createOtherWorm(CGFloat(x), y: CGFloat(y), r: CGFloat(r))
 
-        
-        let spliteStr = str.componentsSeparatedByString(":")
-        
-        if spliteStr.count >= 2 {
-            
-            guard let x = NSNumberFormatter().numberFromString(spliteStr[1]) else {
+                } else if flag == 0 {
+                    playButton.enabled = false
+                }
+            }
+
+        } else {
+     
+            guard let str = server.sendPosition(self.worm.position, rotation: self.worm.zRotation, timestamp: timestamp) else {
                 return
             }
+//            consoleLabel.text = "\(str)"
+//            print(str)
             
-            guard let y = NSNumberFormatter().numberFromString(spliteStr[3]) else {
-                return
+            let spliteStr = str.componentsSeparatedByString(":")
+            let m = spliteStr[0]
+            
+            if spliteStr.count >= 2 {
+                
+                let x = CGFloat(Float(spliteStr[1])!)
+                let y = CGFloat(Float(spliteStr[2])!)
+                let r = CGFloat(Float(spliteStr[3])!)
+//                guard let x = NSNumberFormatter().numberFromString(spliteStr[1]) else {
+//                    print("brak x")
+//                    return
+//                }
+//            
+//                
+//                guard let y = NSNumberFormatter().numberFromString(spliteStr[2]) else {
+//                    print("brak y")
+//                    return
+//                }
+//                
+//                guard let r = NSNumberFormatter().numberFromString(spliteStr[3]) else {
+//                    print("brak r")
+//                    return
+//                }
+                
+                print("split: \(spliteStr)")
+                
+                otherWorm.position = CGPoint(x: x, y: y)
+                otherWorm.zRotation = r
             }
-            
-            guard let r = NSNumberFormatter().numberFromString(spliteStr[5]) else {
-                return
-            }
-            
-            otherWorm.position = CGPoint(x: CGFloat(x), y: CGFloat(y))
-            otherWorm.zRotation = CGFloat(r)
+
         }
     }
     
@@ -257,7 +314,8 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     }
     
     func setPlayButton() {
-        playButton = SKButton(defaultButtonImage: "PlayBigButton", activeButtonImage: "PlayBigButtonShadow", buttonAction: removePlayButton)
+        playButton = SKButton(defaultButtonImage: "PlayBigButton", activeButtonImage: "PlayBigButtonShadow", disabledButtonImage: "PlayBigButtonShadow", buttonAction: removePlayButton)
+        playButton.enabled = false
         playButton.setScale(self.ButtonsScale)
         playButton.zPosition = ObjectsZPositions.hud
         playButton.position = CGPointMake(self.frame.midX, self.frame.midY)
@@ -299,9 +357,12 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+//    func createOtherWorm(x: CGFloat, y: CGFloat, r: CGFloat) {
     func createOtherWorm() {
+
         otherWorm = SKSpriteNode(imageNamed: "otherWorm")
-        otherWorm.position = CGPointMake(self.frame.midX, self.frame.midY / 2)
+        otherWorm.position = CGPointMake(self.frame.midX, self.frame.midY)
+        otherWorm.zRotation = 0.0
         otherWorm.zPosition = ObjectsZPositions.middleground
         otherWorm.setScale(0.25) // to delete, replace with new worm sprite
         self.addChild(otherWorm)
