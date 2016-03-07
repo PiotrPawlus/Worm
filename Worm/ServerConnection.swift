@@ -28,7 +28,7 @@ class ServerConnection {
 
     }
 
-    func send(frame: ServerFrame, x: CGFloat, y: CGFloat, r: CGFloat, timestamp: NSTimeInterval) -> String? {
+    func send(frame: ServerFrame, x: CGFloat, y: CGFloat, r: CGFloat, timestamp: NSTimeInterval) -> (frame: ServerFrame, posX: CGFloat, posY: CGFloat, rot: CGFloat, flag: Int)? {
         var backMessage = String()
         
         if success {
@@ -62,24 +62,27 @@ class ServerConnection {
         } else {
             print(errmsg)
         }
-        
     
+        guard let message = spliteIncomingMessage(backMessage) else {
+            return nil
+        }
         
-        
-        print(backMessage)
-        return backMessage
+        print("Splite: \(message)")
+        return message
     }
   
     
-    private func spliteIncomingMessage(message: String) -> (ServerFrame, CGFloat, CGFloat, CGFloat, NSNumber)? {
+    private func spliteIncomingMessage(message: String) -> (ServerFrame, CGFloat, CGFloat, CGFloat, Int)? {
+        
         
         var frame: ServerFrame = .M
-        var flag: NSNumber = 0
+        var flag: Int = 0
         var x, y, r: CGFloat
-        // W : flaga : x : y : r
         
         let splite = message.componentsSeparatedByString(":")
-        
+        if splite.count < 2 {
+            return nil
+        }
         
         if splite[0] == "M" {
             frame = .M
@@ -89,15 +92,19 @@ class ServerConnection {
         
         switch frame {
         case .M:
+            print("M")
             guard let posX = Float(splite[1]) else {
+                print("posx")
                 return nil
             }
             
             guard let posY = Float(splite[2]) else {
+                print("posY")
                 return nil
             }
             
             guard let rot = Float(splite[3]) else {
+                print("Rotacja")
                 return nil
             }
             
@@ -106,18 +113,22 @@ class ServerConnection {
             r = CGFloat(rot)
             
         case .W:
-            
-            guard let f = NSNumberFormatter().numberFromString(splite[1]) else {
+            print("W")
+            guard let f = Int(splite[1]) else {
+                print("flaga")
                 return nil
             }
             
-            guard let posX = NSNumberFormatter().numberFromString(splite[2]) else {
+            guard let posX = Float(splite[2]) else {
+                print("posx")
                 return nil
             }
-            guard let posY = NSNumberFormatter().numberFromString(splite[3]) else {
+            guard let posY = Float(splite[3]) else {
+                print("posY")
                 return nil
             }
-            guard let rot = NSNumberFormatter().numberFromString(splite[4]) else {
+            guard let rot = Float(splite[4]) else {
+                print("Rotacja")
                 return nil
             }
             

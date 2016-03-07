@@ -132,74 +132,39 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
             return
         }
         
+        
+    
         if !playButton.enabled {
-            
-            guard let str = server.send(ServerFrame.W, x: self.worm.position.x, y: self.worm.position.y, r: self.worm.zRotation, timestamp:  timestamp) else {
+            guard let params = server.send(ServerFrame.W, x: self.worm.position.x, y: self.worm.position.y, r: self.worm.zRotation, timestamp:  timestamp) else {
                 return
             }
             
-            consoleLabel.text = "\(str)"
-            print(str)
-        
-            let spliteStr = str.componentsSeparatedByString(":")
-         
-            let w = spliteStr[0]
-        
-            if w == "W" {
-                guard let flag = NSNumberFormatter().numberFromString(spliteStr[1]) else {
-                    return
-                }
-                
-                if flag == 1 {
+            consoleLabel.text = "\(params)"
+            
+            switch params.frame {
+            case .W:
+                if params.flag == 1 {
                     playButton.enabled = true
-                    
-                    guard let x = NSNumberFormatter().numberFromString(spliteStr[2]) else {
-                        return
-                    }
-                    guard let y = NSNumberFormatter().numberFromString(spliteStr[3]) else {
-                        return
-                    }
-                    guard let r = NSNumberFormatter().numberFromString(spliteStr[4]) else {
-                        return
-                    }
-                     
-//                    self.createOtherWorm(CGFloat(x), y: CGFloat(y), r: CGFloat(r))
-
-                } else if flag == 0 {
+                    //                    self.createOtherWorm(CGFloat(x), y: CGFloat(y), r: CGFloat(r))
+                } else if params.flag == 0 {
                     playButton.enabled = false
                 }
+            default:
+                break
             }
-
         } else {
-     
-            guard let str = server.send(ServerFrame.M, x: self.worm.position.x, y: self.worm.position.y, r: self.worm.zRotation, timestamp:  timestamp) else {
+            guard let params = server.send(ServerFrame.M, x: self.worm.position.x, y: self.worm.position.y, r: self.worm.zRotation, timestamp:  timestamp) else {
                 return
             }
+            consoleLabel.text = "\(params)"
             
-            let spliteStr = str.componentsSeparatedByString(":")
-            
-            if spliteStr[0] == "M" {
-
-                guard let posX = Float(spliteStr[1]) else {
-                    return
-                }
-                
-                guard let posY = Float(spliteStr[2]) else {
-                    return
-                }
-                
-                guard let rot = Float(spliteStr[3]) else {
-                    return
-                }
-                
-                let x = CGFloat(posX)
-                let y = CGFloat(posY)
-                let r = CGFloat(rot)
-                
-                otherWorm.position = CGPoint(x: x, y: y)
-                otherWorm.zRotation = r
+            switch params.frame {
+            case .M:
+                otherWorm.position = CGPoint(x: params.posX, y: params.posY)
+                otherWorm.zRotation = params.rot
+            default:
+                break
             }
-
         }
     }
     
