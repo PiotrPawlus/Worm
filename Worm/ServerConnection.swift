@@ -8,9 +8,13 @@
 
 import UIKit
 
+enum ServerFrame {
+    case M, W
+}
+
 class ServerConnection {
     let clientSocket: TCPClient
-    let Address = "henryk.local"
+    let Address = "Piotrs-MacBook-Pro.local" //"henryk.local"
     let Port = 50000
     let Frames = 33
     var success: Bool
@@ -23,43 +27,23 @@ class ServerConnection {
         uuid = UIDevice.currentDevice().identifierForVendor!.UUIDString
 
     }
-    
-    func sendUUID(timestamp: NSTimeInterval, x: CGFloat, y: CGFloat, r: CGFloat) -> String? {
-        var message = String()
-        if success {
-            
-            let string = "W:\(uuid):\(x):\(y):\(r):\(timestamp)"
-            let data = string.dataUsingEncoding(NSUTF8StringEncoding)!
-            let (success, errmsg) = self.clientSocket.send(data: data)
-            
-            if success {
-                guard let data = clientSocket.read(1024*100) else {
-                    print("Server does not send massage")
-                    return nil
-                }
-                
-                guard let mess = NSString(data: NSData(bytes: data, length: data.count), encoding: NSUTF8StringEncoding) as? String else {
-                    print("not a valid UTF-8 sequence")
-                    return nil
-                }
-                message = mess
-            } else {
-                print(errmsg)
-            }
-        } else {
-            print(errmsg)
-        }
-        return message
-    }
-    
-    func sendPosition(position: CGPoint, rotation: CGFloat, timestamp: NSTimeInterval) -> String? {
-        var message = String()
-        if success {
-            
-            let string = "M:\(uuid):\(position.x):\(position.y):\(rotation):\(timestamp)"
-            let data = string.dataUsingEncoding(NSUTF8StringEncoding)!
-            let (success, errmsg) = self.clientSocket.send(data: data)
 
+    func send(frame: ServerFrame, x: CGFloat, y: CGFloat, r: CGFloat, timestamp: NSTimeInterval) -> String? {
+        var backMessage = String()
+        
+        if success {
+            var incoming = ":\(uuid):\(x):\(y):\(r):\(timestamp)"
+            
+            switch frame {
+            case .M:
+                incoming = "M\(incoming)"
+            case .W:
+                incoming = "W\(incoming)"
+            }
+            
+            let data = incoming.dataUsingEncoding(NSUTF8StringEncoding)!
+            let (success, errmsg) = self.clientSocket.send(data: data)
+            
             if success {
                 guard let data = clientSocket.read(1024*100) else {
                     print("Server does not send massage")
@@ -71,8 +55,7 @@ class ServerConnection {
                     return nil
                 }
                 
-                message = mess
-                
+                backMessage = mess
             } else {
                 print(errmsg)
             }
@@ -80,8 +63,9 @@ class ServerConnection {
             print(errmsg)
         }
         
-        return message
+        return backMessage
     }
+  
     
     func closeConnection() {
         let (success, errmsg) = clientSocket.close()

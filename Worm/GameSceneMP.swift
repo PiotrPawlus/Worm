@@ -133,9 +133,11 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
         }
         
         if !playButton.enabled {
-            guard let str = server.sendUUID(timestamp, x: self.worm.position.x, y: self.worm.position.y, r: self.worm.zRotation) else {
+            
+            guard let str = server.send(ServerFrame.W, x: self.worm.position.x, y: self.worm.position.y, r: self.worm.zRotation, timestamp:  timestamp) else {
                 return
             }
+            
             consoleLabel.text = "\(str)"
             print(str)
         
@@ -170,36 +172,30 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
 
         } else {
      
-            guard let str = server.sendPosition(self.worm.position, rotation: self.worm.zRotation, timestamp: timestamp) else {
+            guard let str = server.send(ServerFrame.M, x: self.worm.position.x, y: self.worm.position.y, r: self.worm.zRotation, timestamp:  timestamp) else {
                 return
             }
-//            consoleLabel.text = "\(str)"
-//            print(str)
             
             let spliteStr = str.componentsSeparatedByString(":")
-            let m = spliteStr[0]
             
-            if spliteStr.count >= 2 {
+            if spliteStr[0] == "M" {
+
+                guard let posX = Float(spliteStr[1]) else {
+                    return
+                }
                 
-                let x = CGFloat(Float(spliteStr[1])!)
-                let y = CGFloat(Float(spliteStr[2])!)
-                let r = CGFloat(Float(spliteStr[3])!)
-//                guard let x = NSNumberFormatter().numberFromString(spliteStr[1]) else {
-//                    print("brak x")
-//                    return
-//                }
-//            
-//                
-//                guard let y = NSNumberFormatter().numberFromString(spliteStr[2]) else {
-//                    print("brak y")
-//                    return
-//                }
-//                
-//                guard let r = NSNumberFormatter().numberFromString(spliteStr[3]) else {
-//                    print("brak r")
-//                    return
-//                }
+                guard let posY = Float(spliteStr[2]) else {
+                    return
+                }
                 
+                guard let rot = Float(spliteStr[3]) else {
+                    return
+                }
+                
+                let x = CGFloat(posX)
+                let y = CGFloat(posY)
+                let r = CGFloat(rot)
+
                 print("split: \(spliteStr)")
                 
                 otherWorm.position = CGPoint(x: x, y: y)
