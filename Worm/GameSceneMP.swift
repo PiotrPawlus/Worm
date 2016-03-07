@@ -195,8 +195,6 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
                 let x = CGFloat(posX)
                 let y = CGFloat(posY)
                 let r = CGFloat(rot)
-
-                print("split: \(spliteStr)")
                 
                 otherWorm.position = CGPoint(x: x, y: y)
                 otherWorm.zRotation = r

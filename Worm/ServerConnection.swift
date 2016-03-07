@@ -63,9 +63,74 @@ class ServerConnection {
             print(errmsg)
         }
         
+    
+        
+        
+        print(backMessage)
         return backMessage
     }
   
+    
+    private func spliteIncomingMessage(message: String) -> (ServerFrame, CGFloat, CGFloat, CGFloat, NSNumber)? {
+        
+        var frame: ServerFrame = .M
+        var flag: NSNumber = 0
+        var x, y, r: CGFloat
+        // W : flaga : x : y : r
+        
+        let splite = message.componentsSeparatedByString(":")
+        
+        
+        if splite[0] == "M" {
+            frame = .M
+        } else if splite[0] == "W" {
+            frame = .W
+        }
+        
+        switch frame {
+        case .M:
+            guard let posX = Float(splite[1]) else {
+                return nil
+            }
+            
+            guard let posY = Float(splite[2]) else {
+                return nil
+            }
+            
+            guard let rot = Float(splite[3]) else {
+                return nil
+            }
+            
+            x = CGFloat(posX)
+            y = CGFloat(posY)
+            r = CGFloat(rot)
+            
+        case .W:
+            
+            guard let f = NSNumberFormatter().numberFromString(splite[1]) else {
+                return nil
+            }
+            
+            guard let posX = NSNumberFormatter().numberFromString(splite[2]) else {
+                return nil
+            }
+            guard let posY = NSNumberFormatter().numberFromString(splite[3]) else {
+                return nil
+            }
+            guard let rot = NSNumberFormatter().numberFromString(splite[4]) else {
+                return nil
+            }
+            
+            flag = f
+            x = CGFloat(posX)
+            y = CGFloat(posY)
+            r = CGFloat(rot)
+        }
+        
+            
+        return (frame, x, y, r, flag)
+    }
+    
     
     func closeConnection() {
         let (success, errmsg) = clientSocket.close()
