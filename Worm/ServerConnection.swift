@@ -9,7 +9,7 @@
 import UIKit
 
 enum ServerFrame {
-    case M, W
+    case M, W, P
 }
 
 class ServerConnection {
@@ -32,16 +32,18 @@ class ServerConnection {
         var backMessage = String()
         
         if success {
-            var incoming = ":\(uuid):\(x):\(y):\(r):\(timestamp)"
+            var message = ":\(uuid):\(x):\(y):\(r):\(timestamp)"
             
             switch frame {
             case .M:
-                incoming = "M\(incoming)"
+                message = "M\(message)"
             case .W:
-                incoming = "W\(incoming)"
+                message = "W\(message)"
+            case .P:
+                return nil
             }
             
-            let data = incoming.dataUsingEncoding(NSUTF8StringEncoding)!
+            let data = message.dataUsingEncoding(NSUTF8StringEncoding)!
             let (success, errmsg) = self.clientSocket.send(data: data)
             
             if success {
@@ -63,12 +65,56 @@ class ServerConnection {
             print(errmsg)
         }
     
-        guard let message = spliteIncomingMessage(backMessage) else {
+        guard let params = spliteIncomingMessage(backMessage) else {
             return nil
         }
         
-        print("Splite: \(message)")
-        return message
+        print("Splite: \(params)")
+        return params
+    }
+    
+    func sendPoint(frame: ServerFrame, pointCollected: Bool) -> String? {
+        // P:uuid:1 or P:uuid:0 - point:id_phone:collected
+        
+        var backMessage = String()
+        if success {
+            var message = ":\(uuid):"
+            switch frame {
+            case .P:
+                message = "P\(message)"
+                if pointCollected {
+                    message = "\(message)1"
+                } else {
+                    message = "\(message)0"
+                }
+            default:
+                return nil
+            }
+            
+            let data = message.dataUsingEncoding(NSUTF8StringEncoding)!
+            let (success, errmsg) = self.clientSocket.send(data: data)
+            
+            if success {
+                guard let data = clientSocket.read(1024*100) else {
+                    print("Server does not send massage")
+                    return nil
+                }
+                
+                guard let mess = NSString(data: NSData(bytes: data, length: data.count), encoding: NSUTF8StringEncoding) as? String else {
+                    print("not a valid UTF-8 sequence")
+                    return nil
+                }
+                
+                backMessage = mess
+            } else {
+                print(errmsg)
+            }
+        } else {
+            print(errmsg)
+        }
+        
+
+        return backMessage
     }
   
     
@@ -88,6 +134,8 @@ class ServerConnection {
             frame = .M
         } else if splite[0] == "W" {
             frame = .W
+        } else if splite[0] == "P" {
+            frame = .P
         }
         
         switch frame {
@@ -136,9 +184,29 @@ class ServerConnection {
             x = CGFloat(posX)
             y = CGFloat(posY)
             r = CGFloat(rot)
+        case .P:
+            print("W")
+            // P:1:x:y or P:0:x:y - point:collected:x,y
+            guard let f = Int(splite[1]) else {
+                print("flaga")
+                return nil
+            }
+            
+            guard let posX = Float(splite[2]) else {
+                print("posx")
+                return nil
+            }
+            guard let posY = Float(splite[3]) else {
+                print("posY")
+                return nil
+            }
+
+            flag = f
+            x = CGFloat(posX)
+            y = CGFloat(posY)
+            r = 0.0
         }
         
-            
         return (frame, x, y, r, flag)
     }
     
