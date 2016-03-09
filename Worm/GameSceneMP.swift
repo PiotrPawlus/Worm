@@ -69,9 +69,11 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     let DegreesToRadians = CGFloat(M_PI) / 180
     let RadiansToDegrees = 180 / CGFloat(M_PI)
 
-    // Server 
+    // Server
     var server: ServerConnection!
     let frames = 33.0
+    var sync = 0
+    var pointCollected = false
     
     // MARK: - Initialiser
     override init(size: CGSize) {
@@ -154,18 +156,41 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
                 break
             }
         } else {
-            guard let params = server.send(ServerFrame.M, x: self.worm.position.x, y: self.worm.position.y, r: self.worm.zRotation, timestamp:  timestamp) else {
-                return
+            sync += 1
+            if pointCollected || sync == Int(frames){
+                guard let params = server.syncWorld(ServerFrame.P, playerX: self.worm.position.x, playerY: self.worm.position.y, playerRotation: self.worm.zRotation, pointX: self.star.position.x, pointY: self.star.position.y, pointCollected: pointCollected, timestamp: timestamp) else {
+                    return
+                }
+                
+                consoleLabel.text = "\(params)"
+                
+//                switch params.frame {
+//                case .P:
+//                    otherWorm.position = CGPoint(x: params.playerX, y: playerY)
+//                    otherWorm.zRotation = params.rot
+//                    
+//                    if prams.pointCollected {
+//                        star.hidden = false
+//                        star.position = CGPoint(x: params.pointX, y: params.pointY)
+//                    }
+//                }
+            } else {
+                guard let params = server.send(ServerFrame.M, x: self.worm.position.x, y: self.worm.position.y, r: self.worm.zRotation, timestamp:  timestamp) else {
+                    return
+                }
+                consoleLabel.text = "\(params)"
+                
+                switch params.frame {
+                case .M:
+                    otherWorm.position = CGPoint(x: params.posX, y: params.posY)
+                    otherWorm.zRotation = params.rot
+                default:
+                    break
+                }
             }
-            consoleLabel.text = "\(params)"
-            
-            switch params.frame {
-            case .M:
-                otherWorm.position = CGPoint(x: params.posX, y: params.posY)
-                otherWorm.zRotation = params.rot
-            default:
-                break
-            }
+        }
+        if sync == Int(frames) {
+            sync = 0
         }
     }
     
