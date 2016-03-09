@@ -71,6 +71,7 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
 
     // Server 
     var server: ServerConnection!
+    let frames = 33.0
     
     // MARK: - Initialiser
     override init(size: CGSize) {
@@ -118,7 +119,7 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
         PauseMenu.gamePaused = false
         EndGameNode.endGame = false
         
-        _ = NSTimer.scheduledTimerWithTimeInterval(1.0 / 33.0, target: self, selector: "update_timer", userInfo: nil, repeats: true)
+        _ = NSTimer.scheduledTimerWithTimeInterval(1.0 / self.frames, target: self, selector: "update_timer", userInfo: nil, repeats: true)
         
     }
     
