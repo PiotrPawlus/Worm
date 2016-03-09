@@ -79,11 +79,32 @@ class ServerConnection {
         var backMessage = String()
         
         if success {
+            let outMessage = "P:\(uuid):\(playerX):\(playerY):\(playerRotation):\(pointX):\(pointY):\(pointCollected):\(timestamp)"
+            
+            let data = outMessage.dataUsingEncoding(NSUTF8StringEncoding)!
+            let (success, errmsg) = self.clientSocket.send(data: data)
+            
+            if success {
+                guard let data = clientSocket.read(1024*100) else {
+                    print("Server does not send massage")
+                    return nil
+                }
+                
+                guard let message = NSString(data: NSData(bytes: data, length: data.count), encoding: NSUTF8StringEncoding) as? String else {
+                    print("not a valid UTF-8 sequence")
+                    return nil
+                }
+                
+                backMessage = message
+            } else {
+                print("Sending err: \(errmsg)")
+            }
             
         } else {
             print(errmsg)
         }
         
+        print(backMessage)
         return backMessage
     }
   
