@@ -73,47 +73,17 @@ class ServerConnection {
         return params
     }
     
-    func sendPoint(frame: ServerFrame, pointCollected: Bool) -> String? {
-        // P:uuid:1 or P:uuid:0 - point:id_phone:collected
+    func syncWorld(frame: ServerFrame, playerX: CGFloat, playerY: CGFloat, playerRotation: CGFloat, pointX: CGFloat, pointY: CGFloat, pointCollected: Bool, timestamp: NSTimeInterval) -> String? {
+        // P:uuid:playerX:playerY:playerRotation:pointX:pointY:collected:timestamp
         
         var backMessage = String()
+        
         if success {
-            var message = ":\(uuid):"
-            switch frame {
-            case .P:
-                message = "P\(message)"
-                if pointCollected {
-                    message = "\(message)1"
-                } else {
-                    message = "\(message)0"
-                }
-            default:
-                return nil
-            }
             
-            let data = message.dataUsingEncoding(NSUTF8StringEncoding)!
-            let (success, errmsg) = self.clientSocket.send(data: data)
-            
-            if success {
-                guard let data = clientSocket.read(1024*100) else {
-                    print("Server does not send massage")
-                    return nil
-                }
-                
-                guard let mess = NSString(data: NSData(bytes: data, length: data.count), encoding: NSUTF8StringEncoding) as? String else {
-                    print("not a valid UTF-8 sequence")
-                    return nil
-                }
-                
-                backMessage = mess
-            } else {
-                print(errmsg)
-            }
         } else {
             print(errmsg)
         }
         
-
         return backMessage
     }
   
