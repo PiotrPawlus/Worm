@@ -135,7 +135,6 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
             return
         }
         
-        
     
         if !playButton.enabled {
             guard let params = server.send(ServerFrame.W, x: self.worm.position.x, y: self.worm.position.y, r: self.worm.zRotation, timestamp:  timestamp) else {
@@ -156,25 +155,7 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
                 break
             }
         } else {
-            sync += 1
-            if pointCollected || sync == Int(frames){
-                guard let params = server.syncWorld(ServerFrame.P, playerX: self.worm.position.x, playerY: self.worm.position.y, playerRotation: self.worm.zRotation, pointX: self.star.position.x, pointY: self.star.position.y, pointCollected: pointCollected, timestamp: timestamp) else {
-                    return
-                }
-                
-                consoleLabel.text = "\(params)"
-                
-//                switch params.frame {
-//                case .P:
-//                    otherWorm.position = CGPoint(x: params.playerX, y: playerY)
-//                    otherWorm.zRotation = params.rot
-//                    
-//                    if prams.pointCollected {
-//                        star.hidden = false
-//                        star.position = CGPoint(x: params.pointX, y: params.pointY)
-//                    }
-//                }
-            } else {
+            if !pointCollected {
                 guard let params = server.send(ServerFrame.M, x: self.worm.position.x, y: self.worm.position.y, r: self.worm.zRotation, timestamp:  timestamp) else {
                     return
                 }
@@ -187,11 +168,12 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
                 default:
                     break
                 }
+            } else {
+                print("Punkt zebrany")
+                // Send sync of the world, actuall func doesn't work! 
             }
         }
-        if sync == Int(frames) {
-            sync = 0
-        }
+
     }
     
     // MARK: - Handling Core Motion
@@ -280,6 +262,7 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
             self.createPoint()
             pointsLabel.points += 1
             self.maxWormSpeed += 2.5
+            pointCollected = true
         }
         
         if bodyA.categoryBitMask == CollisionCategoryBitmask.Wall || bodyB.categoryBitMask == CollisionCategoryBitmask.Wall {
