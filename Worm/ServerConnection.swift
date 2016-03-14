@@ -122,7 +122,6 @@ class ServerConnection {
             return nil
         }
         
-        print("Splite: \(params)")
         return params
     }
     
