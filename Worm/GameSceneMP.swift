@@ -140,7 +140,7 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
             guard let params = server.send(ServerFrame.W, x: self.worm.position.x, y: self.worm.position.y, r: self.worm.zRotation, timestamp:  timestamp) else {
                 return
             }
-            
+        
             consoleLabel.text = "\(params)"
             
             switch params.frame {
@@ -170,7 +170,11 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
                 }
             } else {
                 print("Punkt zebrany")
-                // Send sync of the world, actuall func doesn't work! 
+                guard let params = server.send(ServerFrame.P, x: self.worm.position.x, y: self.worm.position.y, r: self.worm.zRotation, pointX: self.star.position.x, pointY: self.star.position.y, collected: pointCollected, timestamp: timestamp) else {
+                    return
+                }
+                
+                print("SYNC: \(params)")
             }
         }
 

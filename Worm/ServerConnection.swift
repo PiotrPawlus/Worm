@@ -27,20 +27,73 @@ class ServerConnection {
         uuid = UIDevice.currentDevice().identifierForVendor!.UUIDString
 
     }
+    
+    func send(frame: ServerFrame, x: CGFloat, y: CGFloat, r: CGFloat, timestamp: NSTimeInterval)
+        -> (frame: ServerFrame, posX: CGFloat, posY: CGFloat, rot: CGFloat, flag: Int)? {
+            
+            var backMessage = String()
+            
+            if success {
+                var message = ":\(uuid):\(x):\(y):\(r)"
+                
+                switch frame {
+                case .M:
+                    message = "M\(message):\(timestamp)"
+                case .W:
+                    message = "W\(message):\(timestamp)"
+                case .P:
+                    return nil
+                }
+                
+                let data = message.dataUsingEncoding(NSUTF8StringEncoding)!
+                let (success, errmsg) = self.clientSocket.send(data: data)
+                
+                if success {
+                    guard let data = clientSocket.read(1024*100) else {
+                        print("Server does not send massage")
+                        return nil
+                    }
+                    
+                    guard let mess = NSString(data: NSData(bytes: data, length: data.count), encoding: NSUTF8StringEncoding) as? String else {
+                        print("not a valid UTF-8 sequence")
+                        return nil
+                    }
+                    
+                    backMessage = mess
+                } else {
+                    print(errmsg)
+                }
+            } else {
+                print(errmsg)
+            }
+            
+            guard let params = spliteIncomingMessage(backMessage) else {
+                return nil
+            }
+            
+            print("Splite: \(params)")
+            return params
+    }
 
-    func send(frame: ServerFrame, x: CGFloat, y: CGFloat, r: CGFloat, timestamp: NSTimeInterval) -> (frame: ServerFrame, posX: CGFloat, posY: CGFloat, rot: CGFloat, flag: Int)? {
+    func send(frame: ServerFrame, x: CGFloat, y: CGFloat, r: CGFloat, pointX: CGFloat, pointY: CGFloat, collected: Bool, timestamp: NSTimeInterval)
+        -> (frame: ServerFrame, posX: CGFloat, posY: CGFloat, rot: CGFloat, flag: Int)? {
+        
         var backMessage = String()
         
         if success {
-            var message = ":\(uuid):\(x):\(y):\(r):\(timestamp)"
+            var message = ":\(uuid):\(x):\(y):\(r)"
             
             switch frame {
             case .M:
-                message = "M\(message)"
+                message = "M\(message):\(timestamp)"
             case .W:
-                message = "W\(message)"
+                message = "W\(message):\(timestamp)"
             case .P:
-                return nil
+                if collected {
+                    message = "P\(message):\(pointX):\(pointY):1:\(timestamp)"
+                } else {
+                    message = "P\(message):\(pointX):\(pointY):0:\(timestamp)"
+                }
             }
             
             let data = message.dataUsingEncoding(NSUTF8StringEncoding)!
@@ -72,42 +125,6 @@ class ServerConnection {
         print("Splite: \(params)")
         return params
     }
-    
-    func syncWorld(frame: ServerFrame, playerX: CGFloat, playerY: CGFloat, playerRotation: CGFloat, pointX: CGFloat, pointY: CGFloat, pointCollected: Bool, timestamp: NSTimeInterval) -> String? {
-        // P:uuid:playerX:playerY:playerRotation:pointX:pointY:collected:timestamp
-        
-        var backMessage = String()
-        
-        if success {
-            let outMessage = "P:\(uuid):\(playerX):\(playerY):\(playerRotation):\(pointX):\(pointY):\(pointCollected):\(timestamp)"
-            
-            let data = outMessage.dataUsingEncoding(NSUTF8StringEncoding)!
-            let (success, errmsg) = self.clientSocket.send(data: data)
-            
-            if success {
-                guard let data = clientSocket.read(1024*100) else {
-                    print("Server does not send massage")
-                    return nil
-                }
-                
-                guard let message = NSString(data: NSData(bytes: data, length: data.count), encoding: NSUTF8StringEncoding) as? String else {
-                    print("not a valid UTF-8 sequence")
-                    return nil
-                }
-                
-                backMessage = message
-            } else {
-                print("Sending err: \(errmsg)")
-            }
-            
-        } else {
-            print(errmsg)
-        }
-        
-        print(backMessage)
-        return backMessage
-    }
-  
     
     private func spliteIncomingMessage(message: String) -> (ServerFrame, CGFloat, CGFloat, CGFloat, Int)? {
         
@@ -176,26 +193,8 @@ class ServerConnection {
             y = CGFloat(posY)
             r = CGFloat(rot)
         case .P:
-            print("W")
-            // P:1:x:y or P:0:x:y - point:collected:x,y
-            guard let f = Int(splite[1]) else {
-                print("flaga")
-                return nil
-            }
-            
-            guard let posX = Float(splite[2]) else {
-                print("posx")
-                return nil
-            }
-            guard let posY = Float(splite[3]) else {
-                print("posY")
-                return nil
-            }
-
-            flag = f
-            x = CGFloat(posX)
-            y = CGFloat(posY)
-            r = 0.0
+            print("P - w split message ")
+            return nil
         }
         
         return (frame, x, y, r, flag)
