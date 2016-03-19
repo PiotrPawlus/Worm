@@ -29,7 +29,7 @@ class ServerConnection {
     }
     
     func send(frame: ServerFrame, x: CGFloat, y: CGFloat, r: CGFloat, timestamp: NSTimeInterval)
-        -> (frame: ServerFrame, posX: CGFloat, posY: CGFloat, rot: CGFloat, flag: Int)? {
+        -> (x: CGFloat, y: CGFloat, r: CGFloat, beginingFlag: Int, pointX: CGFloat, pointY: CGFloat)? {
             
             var backMessage = String()
             
@@ -72,12 +72,13 @@ class ServerConnection {
             }
             
             print("Splite: \(params)")
-            return params
+
+            let (_, x, y, r, beginingFlag, pointX, pointY) = params
+            return (x, y, r, beginingFlag, pointX, pointY)
     }
 
-    func send(frame: ServerFrame, x: CGFloat, y: CGFloat, r: CGFloat, pointX: CGFloat, pointY: CGFloat, collected: Bool, timestamp: NSTimeInterval)
-        -> (frame: ServerFrame, posX: CGFloat, posY: CGFloat, rot: CGFloat, flag: Int)? {
-        
+    func send(frame: ServerFrame, x: CGFloat, y: CGFloat, r: CGFloat, pointX: CGFloat, pointY: CGFloat, needNewPoint: Bool, size: CGSize, timestamp: NSTimeInterval)
+        -> (x: CGFloat, y: CGFloat, r: CGFloat, beginingFlag: Int, pointX: CGFloat, pointY: CGFloat)? {
         var backMessage = String()
         
         if success {
@@ -89,10 +90,10 @@ class ServerConnection {
             case .W:
                 message = "W\(message):\(timestamp)"
             case .P:
-                if collected {
-                    message = "P\(message):\(pointX):\(pointY):1:\(timestamp)"
+                if needNewPoint {
+                    message = "P\(message):\(pointX):\(pointY):1:\(size.width):\(size.height):\(timestamp)"
                 } else {
-                    message = "P\(message):\(pointX):\(pointY):0:\(timestamp)"
+                    message = "P\(message):\(pointX):\(pointY):0:\(size.width):\(size.height):\(timestamp)"
                 }
             }
             
@@ -122,15 +123,19 @@ class ServerConnection {
             return nil
         }
         
-        return params
+        let (_, x, y, r, beginingFlag, pointX, pointY) = params
+        return (x, y, r, beginingFlag, pointX, pointY)
     }
     
-    private func spliteIncomingMessage(message: String) -> (ServerFrame, CGFloat, CGFloat, CGFloat, Int)? {
+    private func spliteIncomingMessage(message: String)
+        -> (frame: ServerFrame, x: CGFloat, y: CGFloat, r: CGFloat, beginingFlag: Int, pointX: CGFloat, pointY: CGFloat)? {
         
         
         var frame: ServerFrame = .M
-        var flag: Int = 0
+        var waiting: Int = 0
         var x, y, r: CGFloat
+        var pointPosX: CGFloat = 0.0
+        var pointPosY: CGFloat = 0.0
         
         let splite = message.componentsSeparatedByString(":")
         if splite.count < 2 {
@@ -187,16 +192,46 @@ class ServerConnection {
                 return nil
             }
             
-            flag = f
+            waiting = f
             x = CGFloat(posX)
             y = CGFloat(posY)
             r = CGFloat(rot)
         case .P:
-            print("P - w split message ")
-            return nil
+            print("P")
+            guard let posX = Float(splite[1]) else {
+                print("posX")
+                return nil
+            }
+            
+            guard let posY = Float(splite[2]) else {
+                print("posY")
+                return nil
+            }
+            
+            guard let rot = Float(splite[3]) else {
+                print("rot")
+                return nil
+            }
+            
+            guard let pointX = Float(splite[4]) else {
+                print("PointX")
+                return nil
+            }
+            
+            guard let pointY = Float(splite[5]) else {
+                print("PointY")
+                return nil
+            }
+
+            
+            x = CGFloat(posX)
+            y = CGFloat(posY)
+            r = CGFloat(rot)
+            pointPosX = CGFloat(pointX)
+            pointPosY = CGFloat(pointY)
         }
         
-        return (frame, x, y, r, flag)
+        return (frame, x, y, r, waiting, pointPosX, pointPosY)
     }
     
     

@@ -19,6 +19,8 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     
     private var otherWorm: SKSpriteNode!
     
+    private var needNewPoint: Bool = true
+    
     // TIMER
     private var consoleLabel: SKLabelNode!
     private var block: SKSpriteNode!
@@ -73,7 +75,6 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     var server: ServerConnection!
     let frames = 33.0
     var sync = 0
-    var pointCollected = false
     
     // MARK: - Initialiser
     override init(size: CGSize) {
@@ -110,7 +111,7 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
         
         // Physics Bodies
         self.createWorm()
-        self.createPoint()
+        self.createPoint(0.0, y: 0.0, hidden: true)
         self.createWalls()
         
         self.createOtherWorm()
@@ -122,6 +123,8 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
         EndGameNode.endGame = false
         
         _ = NSTimer.scheduledTimerWithTimeInterval(1.0 / self.frames, target: self, selector: "update_timer", userInfo: nil, repeats: true)
+        
+
         
     }
     
@@ -142,39 +145,37 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
             }
         
             consoleLabel.text = "\(params)"
-            
-            switch params.frame {
-            case .W:
-                if params.flag == 1 {
-                    playButton.enabled = true
-                    //                    self.createOtherWorm(CGFloat(x), y: CGFloat(y), r: CGFloat(r))
-                } else if params.flag == 0 {
-                    playButton.enabled = false
-                }
-            default:
-                break
+
+            if params.beginingFlag == 1 {
+                playButton.enabled = true
+                //                    self.createOtherWorm(CGFloat(x), y: CGFloat(y), r: CGFloat(r))
+            } else if params.beginingFlag == 0 {
+                playButton.enabled = false
             }
+
         } else {
-            if !pointCollected {
+            // Teraz guzik aktywny - ale nie wciśnięty
+            if needNewPoint {
+                // wyślij ramkę P - odbierz pozycje drugiego robaka i odbierz pozycję star
+                
+                guard let params = server.send(ServerFrame.P, x: self.worm.position.x, y: self.worm.position.y, r: self.worm.zRotation, pointX: self.star.position.x, pointY: self.star.position.y, needNewPoint: needNewPoint, size: self.frame.size, timestamp: self.timestamp) else {
+                    print("Wrong P params")
+                    return
+                }
+                needNewPoint = false
+                consoleLabel.text = "\(params)"
+                
+                print("P pramas: \(params)")
+                
+                self.createPoint(params.pointX, y: params.pointY, hidden: false)
+            } else {
                 guard let params = server.send(ServerFrame.M, x: self.worm.position.x, y: self.worm.position.y, r: self.worm.zRotation, timestamp:  timestamp) else {
                     return
                 }
                 consoleLabel.text = "\(params)"
                 
-                switch params.frame {
-                case .M:
-                    otherWorm.position = CGPoint(x: params.posX, y: params.posY)
-                    otherWorm.zRotation = params.rot
-                default:
-                    break
-                }
-            } else {
-                print("Punkt zebrany")
-                guard let params = server.send(ServerFrame.P, x: self.worm.position.x, y: self.worm.position.y, r: self.worm.zRotation, pointX: self.star.position.x, pointY: self.star.position.y, collected: pointCollected, timestamp: timestamp) else {
-                    return
-                }
-                
-                print("SYNC: \(params)")
+                otherWorm.position = CGPoint(x: params.x, y: params.y)
+                otherWorm.zRotation = params.r
             }
         }
 
@@ -262,11 +263,10 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
         }
         
         if bodyA.categoryBitMask == CollisionCategoryBitmask.Point || bodyB.categoryBitMask == CollisionCategoryBitmask.Point {
-            star.removeFromParent()
-            self.createPoint()
+            self.star.removeFromParent()
             pointsLabel.points += 1
             self.maxWormSpeed += 2.5
-            pointCollected = true
+            self.needNewPoint = true
         }
         
         if bodyA.categoryBitMask == CollisionCategoryBitmask.Wall || bodyB.categoryBitMask == CollisionCategoryBitmask.Wall {
@@ -285,6 +285,7 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
         self.addChild(backgorundSprite)
     }
     
+
     func setPlayButton() {
         playButton = SKButton(defaultButtonImage: "PlayBigButton", activeButtonImage: "PlayBigButtonShadow", disabledButtonImage: "PlayBigButtonShadow", buttonAction: removePlayButton)
         playButton.enabled = false
@@ -329,9 +330,7 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-//    func createOtherWorm(x: CGFloat, y: CGFloat, r: CGFloat) {
     func createOtherWorm() {
-
         otherWorm = SKSpriteNode(imageNamed: "otherWorm")
         otherWorm.position = CGPointMake(self.frame.midX, self.frame.midY)
         otherWorm.zRotation = 0.0
@@ -359,13 +358,11 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
         self.addChild(worm)
     }
     
-    func createPoint() {
+    func createPoint(x: CGFloat, y: CGFloat, hidden: Bool) {
         star = Point(imageNamed: "apple", delegate: self)
-        
-        let maxY = self.frame.maxY - self.hudBar.size.height
-        star.position = CGPointMake( CGFloat(arc4random() % UInt32(self.frame.maxX * 7/9)) + self.frame.maxX * 1/9 ,
-            CGFloat(arc4random() % UInt32(maxY * 7/9)) + maxY * 1/9)
+        star.position = CGPointMake(x, y)
         self.addChild(star)
+        star.hidden = hidden
     }
     
     func createWalls() {
@@ -400,7 +397,9 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
     // MARK: - Buttons actions
     func removePlayButton() {
         playButton.removeFromParent()
+        needNewPoint = false
         worm.physicsBody?.dynamic = true
+        
     }
     
     func pauseGame() {
