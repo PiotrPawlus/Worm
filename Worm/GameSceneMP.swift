@@ -154,10 +154,7 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
             }
 
         } else {
-            // Teraz guzik aktywny - ale nie wciśnięty
             if needNewPoint {
-                // wyślij ramkę P - odbierz pozycje drugiego robaka i odbierz pozycję star
-                
                 guard let params = server.send(ServerFrame.P, x: self.worm.position.x, y: self.worm.position.y, r: self.worm.zRotation, pointX: self.star.position.x, pointY: self.star.position.y, needNewPoint: needNewPoint, size: self.frame.size, timestamp: self.timestamp) else {
                     print("Wrong P params")
                     return
@@ -167,7 +164,9 @@ class GameSceneMP: SKScene, SKPhysicsContactDelegate {
                 
                 print("P pramas: \(params)")
                 
-                self.createPoint(params.pointX, y: params.pointY, hidden: false)
+                let pointX = params.pointX + self.frame.width * 1/9
+                let pointY = params.pointY + self.frame.height * 1/9
+                self.createPoint(pointX, y: pointY, hidden: false)
             } else {
                 guard let params = server.send(ServerFrame.M, x: self.worm.position.x, y: self.worm.position.y, r: self.worm.zRotation, timestamp:  timestamp) else {
                     return

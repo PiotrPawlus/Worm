@@ -90,10 +90,14 @@ class ServerConnection {
             case .W:
                 message = "W\(message):\(timestamp)"
             case .P:
+                
+                let width = size.width * 7/9
+                let height = size.height * 7/9
+        
                 if needNewPoint {
-                    message = "P\(message):\(pointX):\(pointY):1:\(size.width):\(size.height):\(timestamp)"
+                    message = "P\(message):\(pointX):\(pointY):1:\(width):\(height):\(timestamp)"
                 } else {
-                    message = "P\(message):\(pointX):\(pointY):0:\(size.width):\(size.height):\(timestamp)"
+                    message = "P\(message):\(pointX):\(pointY):0:\(width):\(height):\(timestamp)"
                 }
             }
             
